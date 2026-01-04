@@ -1,0 +1,6 @@
+template,activity_a,activity_b
+exclusivechoice,act_a,act_d
+response,act_i, act_g
+notcoexistence,act_c,act_e
+responded_existence,act_b, act_f
+init,act_h
