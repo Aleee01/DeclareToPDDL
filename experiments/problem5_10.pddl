@@ -1,0 +1,17 @@
+(define (problem declare_problem)
+  (:domain declare_full)
+  (:init
+  )
+  (:goal (and
+    (done_act_a)
+    (done_act_b)
+    (done_act_c)
+    (done_act_d)
+    (done_act_e)
+    (done_act_f)
+    (done_act_g)
+    (done_act_h)
+    (done_act_i)
+    (done_act_l)
+  ))
+)
