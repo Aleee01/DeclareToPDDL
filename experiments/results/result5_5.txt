@@ -1,0 +1,384 @@
+INFO     planner time limit: None
+INFO     planner memory limit: None
+
+INFO     Running translator.
+INFO     translator stdin: None
+INFO     translator time limit: None
+INFO     translator memory limit: None
+INFO     translator command line string: /usr/bin/python3 -m translate /mnt/c/users/alegi/Desktop/evaluation/domain5_5.pddl /mnt/c/users/alegi/Desktop/evaluation/problem5_5.pddl --sas-file output.sas
+Parsing...
+Parsing: [0.000s CPU, 0.011s wall-clock]
+Normalizing task... [0.000s CPU, 0.002s wall-clock]
+Instantiating...
+Generating Datalog program... [0.000s CPU, 0.001s wall-clock]
+Normalizing Datalog program...
+Trivial rules: Converted to facts.
+Normalizing Datalog program: [0.000s CPU, 0.001s wall-clock]
+Preparing model... [0.000s CPU, 0.001s wall-clock]
+Generated 9 rules.
+Computing model... [0.000s CPU, 0.000s wall-clock]
+12 relevant atoms
+0 auxiliary atoms
+12 final queue length
+12 total queue pushes
+Completing instantiation... [0.000s CPU, 0.000s wall-clock]
+Instantiating: [0.000s CPU, 0.006s wall-clock]
+Computing fact groups...
+Finding invariants...
+6 initial candidates
+Finding invariants: [0.000s CPU, 0.001s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.000s wall-clock]
+Instantiating groups... [0.000s CPU, 0.000s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+6 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.000s CPU, 0.006s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.002s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.001s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.001s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.001s wall-clock]
+Translator axioms removed by simplifying: 0
+Processing axioms: [0.000s CPU, 0.001s wall-clock]
+Translating task: [0.000s CPU, 0.002s wall-clock]
+1 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+0 operators removed
+0 axioms removed
+0 propositions removed
+Detecting unreachable propositions: [0.000s CPU, 0.001s wall-clock]
+Reordering and filtering variables...
+5 of 6 variables necessary.
+0 of 0 mutex groups necessary.
+5 of 5 operators necessary.
+0 of 0 axiom rules necessary.
+Reordering and filtering variables: [0.000s CPU, 0.001s wall-clock]
+Translator variables: 5
+Translator derived variables: 0
+Translator facts: 10
+Translator goal facts: 5
+Translator mutex groups: 0
+Translator total mutex groups size: 0
+Translator operators: 5
+Translator axioms: 0
+Translator task size: 33
+Translator peak memory: 27928 KB
+Writing output... [0.000s CPU, 0.001s wall-clock]
+Done! [0.010s CPU, 0.043s wall-clock]
+Parsing...
+Parsing: [0.000s CPU, 0.012s wall-clock]
+Normalizing task... [0.000s CPU, 0.000s wall-clock]
+Instantiating...
+Generating Datalog program... [0.000s CPU, 0.001s wall-clock]
+Normalizing Datalog program...
+Trivial rules: Converted to facts.
+Normalizing Datalog program: [0.000s CPU, 0.001s wall-clock]
+Preparing model... [0.000s CPU, 0.001s wall-clock]
+Generated 9 rules.
+Computing model... [0.000s CPU, 0.001s wall-clock]
+12 relevant atoms
+0 auxiliary atoms
+12 final queue length
+12 total queue pushes
+Completing instantiation... [0.000s CPU, 0.001s wall-clock]
+Instantiating: [0.000s CPU, 0.006s wall-clock]
+Computing fact groups...
+Finding invariants...
+6 initial candidates
+Finding invariants: [0.000s CPU, 0.001s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.000s wall-clock]
+Instantiating groups... [0.000s CPU, 0.000s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+6 uncovered facts
+Choosing groups: [0.000s CPU, 0.000s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.000s CPU, 0.006s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.001s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.001s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.001s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.001s wall-clock]
+Translator axioms removed by simplifying: 0
+Processing axioms: [0.000s CPU, 0.001s wall-clock]
+Translating task: [0.000s CPU, 0.003s wall-clock]
+2 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+0 operators removed
+0 axioms removed
+0 propositions removed
+Detecting unreachable propositions: [0.000s CPU, 0.001s wall-clock]
+Reordering and filtering variables...
+5 of 6 variables necessary.
+0 of 0 mutex groups necessary.
+5 of 5 operators necessary.
+0 of 0 axiom rules necessary.
+Reordering and filtering variables: [0.000s CPU, 0.001s wall-clock]
+Translator variables: 5
+Translator derived variables: 0
+Translator facts: 10
+Translator goal facts: 5
+Translator mutex groups: 0
+Translator total mutex groups size: 0
+Translator operators: 5
+Translator axioms: 0
+Translator task size: 33
+Translator peak memory: 27928 KB
+Writing output... [0.000s CPU, 0.001s wall-clock]
+Done! [0.000s CPU, 0.035s wall-clock]
+translate exit code: 0
+
+INFO     Running preprocessor (release).
+INFO     preprocess stdin: output.sas
+INFO     preprocess time limit: None
+INFO     preprocess memory limit: None
+INFO     preprocess command line string: /home/alessandra/symk/builds/release/bin/preprocess --sas-file output.sas < output.sas
+Building causal graph...
+The causal graph is acyclic.
+5 variables of 5 necessary
+0 of 0 mutex groups necessary.
+5 of 5 operators necessary.
+0 of 0 axiom rules necessary.
+Initializing mutex computation...
+Mutex computation initialized with 10 fluents.
+iteration for mutex detection and operator pruning
+Initialize m_index fw
+Initialized mvalues forward: reached=25, notReached=65, spurious=10
+Initialize m_ops fw
+Computing mutexes...
+Mutex computation finished with reached=86, notReached=4, spurious=10
+0 operators are spurious because were not triggered
+H^2 mutexes added fw: 4, unreachable: 0
+0 of 5 operators detected as spurious
+iteration for mutex detection and operator pruning
+Initialize m_index bw
+Init values regression
+Initialized mvalues backward: reached=25, notReached=61, spurious=14
+Initialize m_ops bw
+Computing mutexes...
+Mutex computation finished with reached=84, notReached=2, spurious=14
+0 operators are spurious because were not triggered
+H^2 mutexes added bw: 2, unreachable: 0
+0 of 5 operators detected as spurious
+iteration for mutex detection and operator pruning
+Initialize m_index fw
+Initialized mvalues forward: reached=25, notReached=59, spurious=16
+Initialize m_ops fw
+Computing mutexes...
+Mutex computation finished with reached=82, notReached=2, spurious=16
+0 operators are spurious because were not triggered
+H^2 mutexes added fw: 2, unreachable: 0
+0 of 5 operators detected as spurious
+iteration for mutex detection and operator pruning
+Initialize m_index bw
+Init values regression
+Initialized mvalues backward: reached=25, notReached=57, spurious=18
+Initialize m_ops bw
+Computing mutexes...
+Mutex computation finished with reached=82, notReached=0, spurious=18
+0 operators are spurious because were not triggered
+H^2 mutexes added bw: 0, unreachable: 0
+0 of 5 operators detected as spurious
+Total mutex and disambiguation time: 0.000782 iterations: 4
+Total mutexes found forward: 6
+Total mutexes found backward: 2
+4 of 4 mutex groups necessary.
+5 of 5 operators necessary.
+0 of 0 axiom rules necessary.
+Change id of initial state
+Remove unreachable facts from variables: 5
+4 of 4 mutex groups necessary.
+5 of 5 operators necessary.
+0 of 0 axiom rules necessary.
+Updating causal graph and pruning unnecessary facts
+5 variables of 5 of 5 necessary
+The causal graph is acyclic.
+5 variables of 5 necessary
+4 of 4 mutex groups necessary.
+5 of 5 operators necessary.
+0 of 0 axiom rules necessary.
+Preprocessor variables: 5
+Preprocessor facts: 10
+Preprocessor derived variables: 0
+Preprocessor operators: 5
+Preprocessor mutex groups: 4
+Preprocessor task size: 41
+Writing output...
+done
+preprocess exit code: 0
+
+INFO     Running search (release).
+INFO     search stdin: output.sas
+INFO     search time limit: None
+INFO     search memory limit: None
+INFO     search command line string: /home/alessandra/symk/builds/release/bin/downward --search 'symk_bd(plan_selection=top_k(num_plans=10,dump_plans=true))' --internal-plan-file sas_plan < output.sas
+[t=0.000144s, 11348 KB] Search code revision: 08d71e3c8
+[t=0.000226s, 11348 KB] reading input...
+[t=0.000363s, 11348 KB] done reading input!
+[t=0.002042s, 11748 KB] Search Algorithm: Topk Symbolic Bidirectional Uniform Cost Search
+[t=0.002118s, 11748 KB] Building successor generator...done!
+[t=0.002247s, 11748 KB] peak memory difference for successor generator creation: 0 KB
+[t=0.002275s, 11748 KB] time for successor generation creation: 0.000007s
+[t=0.002327s, 11748 KB] Variables: 5
+[t=0.002377s, 11748 KB] FactPairs: 10
+[t=0.002425s, 11748 KB] Bytes per state: 4
+[t=0.002473s, 11748 KB] Has conditional effects: 0
+[t=0.002522s, 11748 KB] Has axioms: 0
+
+[t=0.002613s, 11748 KB] CUDD Init: nodes=16000000 cache=16000000 max_memory=0
+[t=0.002662s, 11748 KB] Variable Ordering: gamer
+[t=0.002710s, 11748 KB] Dynamic reordering: False
+
+[t=0.002795s, 11748 KB] TR(time=60000, nodes=100000, ce_type=variable + effect based conjunctive with early quantification)
+[t=0.002844s, 11748 KB] Mutex(time=60000, nodes=100000, type=edeletion)
+[t=0.002893s, 11748 KB] Aux(time=2000, nodes=1000000)
+[t=0.002941s, 11748 KB] Max alloted time (for bd): 60.000000s nodes: 10000000
+[t=0.002992s, 11748 KB] Mult alloted time (for bd): 2.000000 nodes: 2.000000
+
+[t=0.003068s, 11748 KB] building causal graph...done! [t=0.000054s]
+[t=0.003151s, 11748 KB] Optimizing variable ordering...done! [t=0.046809s]
+[t=0.050045s, 11748 KB] Sym variable order: 1 0 4 3 2 
+[t=0.050109s, 11748 KB] Initializing Symbolic Variables
+[t=0.050168s, 11748 KB] Num variables: 5 => 5
+[t=0.050215s, 11748 KB] Initialize Symbolic Manager(10, 1600000, 16000000, 0)
+[t=0.447439s, 460316 KB] Generating binary variables
+[t=0.447627s, 460316 KB] Symbolic Variables... Done.
+
+[t=0.447790s, 460316 KB] Plan Selector: Top-K
+[t=0.447930s, 460316 KB] Plan files: sas_plan
+
+[t=0.448042s, 460316 KB] Creating 5 transition relations...Done!
+[t=0.448201s, 460316 KB] Number of auxillary variables: 0
+[t=0.448246s, 460316 KB] Individual transition relations: 5
+[t=0.448290s, 460316 KB] Individual disjunctive transition relations: 5
+[t=0.448339s, 460316 KB] Individual conjunctive transition relations: 0
+[t=0.448371s, 460316 KB] Merging transition relations...
+[t=0.448403s, 460316 KB] Conjunctive merging...
+[t=0.448468s, 460316 KB] Disjunctive merging...
+[t=0.448688s, 460316 KB] Merged transition relations: 1
+[t=0.448759s, 460316 KB] Merged disjunctive transition relations: 1
+[t=0.448823s, 460316 KB] Merged conjunctive transition relations: 0
+[t=0.448921s, 460316 KB] BOUND: 1 < 2147483647 [0/10 plans], reconstruction time: 0.000000s
+[t=0.449124s, 460316 KB] BOUND: 2 < 2147483647 [0/10 plans], dir: FW, reconstruction time: 0.000000s
+[t=0.449340s, 460316 KB] BOUND: 3 < 2147483647 [0/10 plans], dir: BW, reconstruction time: 0.000000s
+[t=0.449579s, 460316 KB] BOUND: 4 < 2147483647 [0/10 plans], dir: BW, reconstruction time: 0.000000s
+[t=0.449860s, 460316 KB] BOUND: 5 < 2147483647 [0/10 plans], dir: BW, reconstruction time: 0.000000s
+
+[t=0.450407s, 460316 KB] New plan 1:
+act_c  (1)
+act_a  (1)
+act_d  (1)
+act_e  (1)
+act_b  (1)
+[t=0.450958s, 460316 KB] Plan length: 5 step(s).
+[t=0.451055s, 460316 KB] Plan cost: 5
+
+[t=0.451237s, 460316 KB] New plan 2:
+act_d  (1)
+act_a  (1)
+act_c  (1)
+act_e  (1)
+act_b  (1)
+[t=0.451528s, 460316 KB] Plan length: 5 step(s).
+[t=0.451591s, 460316 KB] Plan cost: 5
+
+[t=0.451825s, 460316 KB] New plan 3:
+act_d  (1)
+act_a  (1)
+act_e  (1)
+act_b  (1)
+act_c  (1)
+[t=0.452103s, 460316 KB] Plan length: 5 step(s).
+[t=0.452148s, 460316 KB] Plan cost: 5
+
+[t=0.452269s, 460316 KB] New plan 4:
+act_d  (1)
+act_a  (1)
+act_e  (1)
+act_c  (1)
+act_b  (1)
+[t=0.452483s, 460316 KB] Plan length: 5 step(s).
+[t=0.452523s, 460316 KB] Plan cost: 5
+
+[t=0.452707s, 460316 KB] New plan 5:
+act_a  (1)
+act_d  (1)
+act_c  (1)
+act_e  (1)
+act_b  (1)
+[t=0.453106s, 460316 KB] Plan length: 5 step(s).
+[t=0.453304s, 460316 KB] Plan cost: 5
+
+[t=0.453686s, 460316 KB] New plan 6:
+act_a  (1)
+act_d  (1)
+act_e  (1)
+act_b  (1)
+act_c  (1)
+[t=0.453991s, 460316 KB] Plan length: 5 step(s).
+[t=0.454075s, 460316 KB] Plan cost: 5
+
+[t=0.454229s, 460316 KB] New plan 7:
+act_a  (1)
+act_d  (1)
+act_e  (1)
+act_c  (1)
+act_b  (1)
+[t=0.454491s, 460316 KB] Plan length: 5 step(s).
+[t=0.454547s, 460316 KB] Plan cost: 5
+
+[t=0.454745s, 460316 KB] New plan 8:
+act_c  (1)
+act_d  (1)
+act_a  (1)
+act_e  (1)
+act_b  (1)
+[t=0.454925s, 460316 KB] Plan length: 5 step(s).
+[t=0.454973s, 460316 KB] Plan cost: 5
+
+[t=0.455115s, 460316 KB] New plan 9:
+act_c  (1)
+act_d  (1)
+act_e  (1)
+act_a  (1)
+act_b  (1)
+[t=0.455851s, 460316 KB] Plan length: 5 step(s).
+[t=0.455918s, 460316 KB] Plan cost: 5
+
+[t=0.456181s, 460316 KB] New plan 10:
+act_d  (1)
+act_e  (1)
+act_a  (1)
+act_b  (1)
+act_c  (1)
+[t=0.456425s, 460316 KB] Plan length: 5 step(s).
+[t=0.456482s, 460316 KB] Plan cost: 5
+[t=0.456538s, 460316 KB] BOUND: 6 < 2147483647 [10/10 plans], dir: FW, reconstruction time: 0.006426s
+
+[t=0.456670s, 460316 KB] Actual search time: 0.007807s
+[t=0.456752s, 460316 KB] Best plan:
+act_c  (1)
+act_a  (1)
+act_d  (1)
+act_e  (1)
+act_b  (1)
+[t=0.456752s, 460316 KB] Plan length: 5 step(s).
+[t=0.456752s, 460316 KB] Plan cost: 5
+[t=0.456752s, 460316 KB] Number of plans: 10
+[t=0.456752s, 460316 KB] Plan reconstruction time: 0.006426s
+[t=0.456752s, 460316 KB] Search time: 0.008964s
+[t=0.456752s, 460316 KB] Total time: 0.456752s
+Solution found.
+Peak memory: 460316 KB
+Remove intermediate file output.sas
+search exit code: 0
+
+INFO     Planner time: 0.59s

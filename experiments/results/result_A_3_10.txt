@@ -1,0 +1,307 @@
+INFO     planner time limit: None
+INFO     planner memory limit: None
+
+INFO     Running translator.
+INFO     translator stdin: None
+INFO     translator time limit: None
+INFO     translator memory limit: None
+INFO     translator command line string: /usr/bin/python3 -m translate /mnt/c/users/alegi/Desktop/evaluation/domain_A_3_10.pddl /mnt/c/users/alegi/Desktop/evaluation/problem_A_3_10.pddl --sas-file output.sas
+Parsing...
+Parsing: [0.010s CPU, 0.015s wall-clock]
+Normalizing task... [0.000s CPU, 0.001s wall-clock]
+Instantiating...
+Generating Datalog program... [0.000s CPU, 0.001s wall-clock]
+Normalizing Datalog program...
+Trivial rules: Converted to facts.
+Normalizing Datalog program: [0.000s CPU, 0.004s wall-clock]
+Preparing model... [0.000s CPU, 0.002s wall-clock]
+Generated 15 rules.
+Computing model... [0.000s CPU, 0.004s wall-clock]
+205 relevant atoms
+57 auxiliary atoms
+262 final queue length
+1334 total queue pushes
+Completing instantiation... [0.020s CPU, 0.020s wall-clock]
+Instantiating: [0.020s CPU, 0.067s wall-clock]
+Computing fact groups...
+Finding invariants...
+3 initial candidates
+Finding invariants: [0.000s CPU, 0.001s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+16 uncovered facts
+Choosing groups: [0.010s CPU, 0.001s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.010s CPU, 0.010s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.001s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.001s wall-clock]
+Translator axioms removed by simplifying: 0
+Processing axioms: [0.000s CPU, 0.003s wall-clock]
+Translating task: [0.000s CPU, 0.006s wall-clock]
+16 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+0 operators removed
+0 axioms removed
+0 propositions removed
+Detecting unreachable propositions: [0.000s CPU, 0.003s wall-clock]
+Reordering and filtering variables...
+16 of 16 variables necessary.
+0 of 0 mutex groups necessary.
+11 of 11 operators necessary.
+7 of 7 axiom rules necessary.
+Reordering and filtering variables: [0.000s CPU, 0.001s wall-clock]
+Translator variables: 16
+Translator derived variables: 4
+Translator facts: 32
+Translator goal facts: 3
+Translator mutex groups: 0
+Translator total mutex groups size: 0
+Translator operators: 11
+Translator axioms: 7
+Translator task size: 285
+Translator peak memory: 28952 KB
+Writing output... [0.000s CPU, 0.002s wall-clock]
+Done! [0.040s CPU, 0.113s wall-clock]
+Parsing...
+Parsing: [0.010s CPU, 0.017s wall-clock]
+Normalizing task... [0.000s CPU, 0.001s wall-clock]
+Instantiating...
+Generating Datalog program... [0.000s CPU, 0.002s wall-clock]
+Normalizing Datalog program...
+Trivial rules: Converted to facts.
+Normalizing Datalog program: [0.000s CPU, 0.002s wall-clock]
+Preparing model... [0.000s CPU, 0.002s wall-clock]
+Generated 15 rules.
+Computing model... [0.000s CPU, 0.004s wall-clock]
+205 relevant atoms
+57 auxiliary atoms
+262 final queue length
+1334 total queue pushes
+Completing instantiation... [0.020s CPU, 0.019s wall-clock]
+Instantiating: [0.020s CPU, 0.033s wall-clock]
+Computing fact groups...
+Finding invariants...
+3 initial candidates
+Finding invariants: [0.000s CPU, 0.002s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.001s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.001s wall-clock]
+Choosing groups...
+16 uncovered facts
+Choosing groups: [0.000s CPU, 0.001s wall-clock]
+Building translation key... [0.010s CPU, 0.001s wall-clock]
+Computing fact groups: [0.010s CPU, 0.011s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.001s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.001s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.001s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.001s wall-clock]
+Translator axioms removed by simplifying: 0
+Processing axioms: [0.000s CPU, 0.002s wall-clock]
+Translating task: [0.000s CPU, 0.006s wall-clock]
+32 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+0 operators removed
+0 axioms removed
+0 propositions removed
+Detecting unreachable propositions: [0.000s CPU, 0.002s wall-clock]
+Reordering and filtering variables...
+16 of 16 variables necessary.
+0 of 0 mutex groups necessary.
+11 of 11 operators necessary.
+7 of 7 axiom rules necessary.
+Reordering and filtering variables: [0.000s CPU, 0.001s wall-clock]
+Translator variables: 16
+Translator derived variables: 4
+Translator facts: 32
+Translator goal facts: 3
+Translator mutex groups: 0
+Translator total mutex groups size: 0
+Translator operators: 11
+Translator axioms: 7
+Translator task size: 285
+Translator peak memory: 28952 KB
+Writing output... [0.000s CPU, 0.032s wall-clock]
+Done! [0.040s CPU, 0.116s wall-clock]
+translate exit code: 0
+
+INFO     Running preprocessor (release).
+INFO     preprocess stdin: output.sas
+INFO     preprocess time limit: None
+INFO     preprocess memory limit: None
+INFO     preprocess command line string: /home/alessandra/symk/builds/release/bin/preprocess --sas-file output.sas < output.sas
+Building causal graph...
+The causal graph is not acyclic.
+16 variables of 16 necessary
+0 of 0 mutex groups necessary.
+11 of 11 operators necessary.
+7 of 7 axiom rules necessary.
+Disabling h2 analysis because it does not currently support axioms
+Preprocessor variables: 16
+Preprocessor facts: 32
+Preprocessor derived variables: 4
+Preprocessor operators: 11
+Preprocessor mutex groups: 0
+Preprocessor task size: 285
+Writing output...
+done
+preprocess exit code: 0
+
+INFO     Running search (release).
+INFO     search stdin: output.sas
+INFO     search time limit: None
+INFO     search memory limit: None
+INFO     search command line string: /home/alessandra/symk/builds/release/bin/downward --search 'symk_bd(plan_selection=top_k(num_plans=10,dump_plans=true))' --internal-plan-file sas_plan < output.sas
+[t=0.000425s, 11348 KB] Search code revision: 08d71e3c8
+[t=0.000649s, 11348 KB] reading input...
+[t=0.001261s, 11348 KB] done reading input!
+[t=0.003813s, 11744 KB] Search Algorithm: Topk Symbolic Bidirectional Uniform Cost Search
+[t=0.003983s, 11744 KB] Building successor generator...done!
+[t=0.004276s, 11744 KB] peak memory difference for successor generator creation: 0 KB
+[t=0.004342s, 11744 KB] time for successor generation creation: 0.000014s
+[t=0.004455s, 11744 KB] Variables: 16
+[t=0.004549s, 11744 KB] FactPairs: 32
+[t=0.004624s, 11744 KB] Bytes per state: 4
+[t=0.004719s, 11744 KB] Has conditional effects: 1
+[t=0.004787s, 11744 KB] Has axioms: 1
+[t=0.004875s, 11744 KB] Mutex type changed to mutex_and because the domain has conditional effects or axioms.
+
+[t=0.005020s, 11744 KB] CUDD Init: nodes=16000000 cache=16000000 max_memory=0
+[t=0.005131s, 11744 KB] Variable Ordering: gamer
+[t=0.005235s, 11744 KB] Dynamic reordering: False
+
+[t=0.005372s, 11744 KB] TR(time=60000, nodes=100000, ce_type=variable + effect based conjunctive with early quantification)
+[t=0.005472s, 11744 KB] Mutex(time=60000, nodes=100000, type=and)
+[t=0.005576s, 11744 KB] Aux(time=2000, nodes=1000000)
+[t=0.005675s, 11744 KB] Max alloted time (for bd): 60.000000s nodes: 10000000
+[t=0.005783s, 11744 KB] Mult alloted time (for bd): 2.000000 nodes: 2.000000
+
+[t=0.005929s, 11744 KB] building causal graph...done! [t=0.000213s]
+[t=0.006235s, 11744 KB] Optimizing variable ordering...done! [t=0.145564s]
+[t=0.151981s, 11744 KB] Sym variable order: 2 1 8 5 9 6 4 7 13 3 10 11 12 14 15 0 
+[t=0.152138s, 11744 KB] Initializing Symbolic Variables
+[t=0.152278s, 11744 KB] Num variables: 16 => 16
+[t=0.152382s, 11744 KB] Initialize Symbolic Manager(32, 500000, 16000000, 0)
+[t=0.731323s, 415344 KB] Generating binary variables
+[t=0.731570s, 415344 KB] Symbolic Variables... Done.
+[t=0.731703s, 415344 KB] Creating Primary Representation for Derived Predicates...
+[t=0.731823s, 415344 KB] LAYER 0...done!
+[t=0.731997s, 415344 KB] LAYER 1...done!
+[t=0.732123s, 415344 KB] Symbolic Axiom initialization: 0.000377s
+[t=0.732203s, 415344 KB] Primary Representation... Done!
+
+[t=0.732437s, 415344 KB] Plan Selector: Top-K
+[t=0.732566s, 415344 KB] Plan files: sas_plan
+
+[t=0.732759s, 415344 KB] Creating 11 transition relations...Done!
+[t=0.733764s, 415344 KB] Number of auxillary variables: 0
+[t=0.733869s, 415344 KB] Individual transition relations: 11
+[t=0.734116s, 415344 KB] Individual disjunctive transition relations: 0
+[t=0.734226s, 415344 KB] Individual conjunctive transition relations: 11
+[t=0.734390s, 415344 KB] Merging transition relations...
+[t=0.734489s, 415344 KB] Conjunctive merging...
+[t=0.735396s, 415344 KB] Disjunctive merging...
+[t=0.735852s, 415344 KB] Merged transition relations: 1
+[t=0.735957s, 415344 KB] Merged disjunctive transition relations: 1
+[t=0.736050s, 415344 KB] Merged conjunctive transition relations: 0
+[t=0.736166s, 415344 KB] BOUND: 1 < 2147483647 [0/10 plans], reconstruction time: 0.000000s
+[t=0.736596s, 415500 KB] BOUND: 2 < 2147483647 [0/10 plans], dir: FW, reconstruction time: 0.000000s
+
+[t=0.737083s, 415500 KB] New plan 1:
+sync act_a (1)
+finish  (1)
+[t=0.737453s, 415500 KB] Plan length: 2 step(s).
+[t=0.737610s, 415500 KB] Plan cost: 2
+[t=0.737714s, 415500 KB] BOUND: 3 < 2147483647 [1/10 plans], dir: BW, reconstruction time: 0.000864s
+
+[t=0.738666s, 415500 KB] New plan 2:
+sync act_a (1)
+sync act_a (1)
+finish  (1)
+[t=0.739022s, 415500 KB] Plan length: 3 step(s).
+[t=0.739107s, 415500 KB] Plan cost: 3
+
+[t=0.739348s, 415500 KB] New plan 3:
+sync act_a (1)
+sync act_g (1)
+finish  (1)
+[t=0.739634s, 415500 KB] Plan length: 3 step(s).
+[t=0.739716s, 415500 KB] Plan cost: 3
+
+[t=0.739937s, 415500 KB] New plan 4:
+sync act_a (1)
+sync act_i (1)
+finish  (1)
+[t=0.740199s, 415500 KB] Plan length: 3 step(s).
+[t=0.740299s, 415500 KB] Plan cost: 3
+
+[t=0.740536s, 415500 KB] New plan 5:
+sync act_a (1)
+sync act_l (1)
+finish  (1)
+[t=0.740824s, 415500 KB] Plan length: 3 step(s).
+[t=0.740916s, 415500 KB] Plan cost: 3
+
+[t=0.741171s, 415500 KB] New plan 6:
+sync act_a (1)
+sync act_h (1)
+finish  (1)
+[t=0.741446s, 415500 KB] Plan length: 3 step(s).
+[t=0.741502s, 415500 KB] Plan cost: 3
+
+[t=0.741694s, 415500 KB] New plan 7:
+sync act_a (1)
+sync act_c (1)
+finish  (1)
+[t=0.741989s, 415500 KB] Plan length: 3 step(s).
+[t=0.742050s, 415500 KB] Plan cost: 3
+
+[t=0.742226s, 415500 KB] New plan 8:
+sync act_a (1)
+sync act_e (1)
+finish  (1)
+[t=0.742408s, 415500 KB] Plan length: 3 step(s).
+[t=0.742458s, 415500 KB] Plan cost: 3
+
+[t=0.742591s, 415500 KB] New plan 9:
+sync act_a (1)
+sync act_f (1)
+finish  (1)
+[t=0.742749s, 415500 KB] Plan length: 3 step(s).
+[t=0.742795s, 415500 KB] Plan cost: 3
+
+[t=0.743045s, 415500 KB] New plan 10:
+sync act_i (1)
+sync act_a (1)
+finish  (1)
+[t=0.743296s, 415500 KB] Plan length: 3 step(s).
+[t=0.743352s, 415500 KB] Plan cost: 3
+[t=0.743404s, 415500 KB] BOUND: 4 < 2147483647 [10/10 plans], dir: BW, reconstruction time: 0.006153s
+
+[t=0.743499s, 415500 KB] Actual search time: 0.007372s
+[t=0.743545s, 415500 KB] Best plan:
+sync act_a (1)
+finish  (1)
+[t=0.743545s, 415500 KB] Plan length: 2 step(s).
+[t=0.743545s, 415500 KB] Plan cost: 2
+[t=0.743545s, 415500 KB] Number of plans: 10
+[t=0.743545s, 415500 KB] Plan reconstruction time: 0.006153s
+[t=0.743545s, 415500 KB] Search time: 0.011114s
+[t=0.743545s, 415500 KB] Total time: 0.743545s
+Solution found.
+Peak memory: 415500 KB
+Remove intermediate file output.sas
+search exit code: 0
+
+INFO     Planner time: 1.00s
