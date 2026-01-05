@@ -1,8 +1,8 @@
 template,activity_a,activity_b
-exclusivechoice,act_a,act_d
-response,act_i, act_g
-notcoexistence,act_c,act_e
-responded_existence,act_b, act_f
-init,act_h
-succession,act_e,act_b
-altprecedence,act_a,act_i
+existence,act_a,
+exactly_one,act_d,
+altresponse,act_a,act_b
+chainprecedence,act_c,act_d
+choice,act_b,act_c
+notcoexistence,act_e,act_c
+notsuccession,act_d,act_a

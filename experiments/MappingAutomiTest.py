@@ -55,9 +55,6 @@ def automaton_absence(a, idx, all_acts):
         "transitions": transitions,
     }
 
-#choice
-#exclusivechoice
-
 def automaton_choice(a, b, idx, all_acts):
     s0 = f"choice_{a}_{b}_s0_{idx}"
     s1 = f"choice_{a}_{b}_s1_{idx}"
@@ -115,7 +112,6 @@ def automaton_respondedexistence(a, b, idx, all_acts):
         "transitions": transitions,
     }
 
-#notresponded/notcoexistence
 
 def automaton_coexistence(a, b, idx, all_acts):
     s0 = f"coex_{a}_{b}_s0_{idx}"
@@ -524,7 +520,6 @@ def write_problem(automata, activities, path="problem_A_7_10.pddl"):
 
 
 def main():
-    # === Controllo file ===
     if not os.path.exists(CSV_PATH):
         print(f"❌ Errore: file vincoli non trovato in {CSV_PATH}")
         return
@@ -532,8 +527,7 @@ def main():
     if not os.path.exists(ACTIVITIES_CSV):
         print(f"❌ File delle attività non trovato in {ACTIVITIES_CSV}")
         return
-
-    # === Lettura attività ===
+    
     activities_set = set()
     with open(ACTIVITIES_CSV, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -553,7 +547,6 @@ def main():
     all_acts_sorted = sorted(activities_set)
     print(f"📌 Attività trovate: {all_acts_sorted}")
 
-    # === Lettura vincoli ===
     rows = []
     with open(CSV_PATH, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -572,13 +565,11 @@ def main():
         print("❌ Nessun vincolo nel CSV")
         return
 
-    # === Indicizzazione vincoli per attività ===
     activity_constraints = {}
     for row in rows:
         a = row["activity_a"].strip().replace(" ", "_")
         activity_constraints.setdefault(a, []).append(row)
 
-    # === Costruzione automi ===
     automata = []
 
     for idx, row in enumerate(rows, start=1):
@@ -591,7 +582,6 @@ def main():
             if b == "":
                 b = None
 
-        # Filtro assenza
         if template == "absence":
             if len(activity_constraints.get(a, [])) > 1:
                 print(f"⏩ Ignoro 'absence' per {a} (vincoli multipli)")
@@ -613,12 +603,10 @@ def main():
         automata.append(autom)
         print(f"✅ Automa creato: {autom['name']}")
 
-    # === Controllo finale ===
     if not automata:
         print("⚠️ Nessun automa generato")
         return
 
-    # === Scrittura PDDL ===
     write_domain("domain_A_7_10.pddl")
     write_problem(automata, all_acts_sorted, "problem_A_7_10.pddl")
 
