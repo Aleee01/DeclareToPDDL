@@ -1,0 +1,67 @@
+(define (domain declare_full)
+  (:requirements :strips :negative-preconditions)
+  (:predicates
+    (first)
+    (forbidden)
+    (ended)
+    (done_act_a)
+    (next_act_a)
+    (last_act_a)
+    (unique_act_a)
+    (done_act_b)
+    (next_act_b)
+    (last_act_b)
+    (unique_act_b)
+    (done_act_c)
+    (next_act_c)
+    (last_act_c)
+    (unique_act_c)
+    (done_act_d)
+    (next_act_d)
+    (last_act_d)
+    (unique_act_d)
+    (done_act_e)
+    (next_act_e)
+    (last_act_e)
+    (unique_act_e)
+    (pending_act_a_act_b)
+    (pending_act_b_act_a)
+    (pending_act_b_act_c)
+    (pending_act_b_act_e)
+    (pending_act_c_act_b)
+    (pending_act_d_act_e)
+    (pending_act_e_act_b)
+    (pending_act_e_act_d)
+  )
+
+  (:action act_a
+    :parameters ()
+    :precondition (and )
+    :effect (and (done_act_a))
+  )
+
+  (:action act_b
+    :parameters ()
+    :precondition (and (done_act_a))
+    :effect (and (done_act_b))
+  )
+
+  (:action act_c
+    :parameters ()
+    :precondition (and )
+    :effect (and (done_act_c))
+  )
+
+  (:action act_d
+    :parameters ()
+    :precondition (and )
+    :effect (and (done_act_d) (pending_act_d_act_e))
+  )
+
+  (:action act_e
+    :parameters ()
+    :precondition (and (done_act_d) (not (done_act_b)))
+    :effect (and (done_act_e) (not (pending_act_d_act_e)))
+  )
+
+)
