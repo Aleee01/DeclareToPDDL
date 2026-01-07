@@ -1,0 +1,35 @@
+activity_a,activity_b,template,support,confidence
+CRP,ER Sepsis Triage,coexistence,1050,1006
+CRP,LacticAcid,coexistence,1007,860
+CRP,Leucocytes,coexistence,1013,1006
+ER Sepsis Triage,CRP,coexistence,1050,1006
+ER Sepsis Triage,Leucocytes,coexistence,1050,1011
+IV Antibiotics,LacticAcid,coexistence,894,789
+LacticAcid,CRP,coexistence,1007,860
+LacticAcid,ER Registration,responded_existence,860,860
+LacticAcid,ER Sepsis Triage,responded_existence,860,859
+LacticAcid,ER Triage,responded_existence,860,860
+LacticAcid,IV Antibiotics,coexistence,894,789
+LacticAcid,Leucocytes,responded_existence,860,860
+Leucocytes,CRP,coexistence,1013,1006
+Leucocytes,ER Sepsis Triage,coexistence,1050,1011
+ER Registration,LacticAcid,precedence,860,857
+ER Triage,LacticAcid,precedence,860,822
+ER Sepsis Triage,CRP,response,1049,943
+ER Sepsis Triage,Leucocytes,response,1049,945
+ER Registration,CRP,succession,1050,983
+ER Registration,ER Sepsis Triage,altsuccession,1050,1042
+ER Registration,ER Triage,chainsuccession,1050,968
+ER Registration,Leucocytes,succession,1050,984
+ER Triage,CRP,succession,1050,940
+ER Triage,ER Sepsis Triage,chainsuccession,1050,902
+ER Triage,Leucocytes,succession,1050,941
+ER Sepsis Triage,,exactly_one,1049,1049
+ER Registration,,exactly_one,1050,1050
+ER Triage,,exactly_one,1050,1047
+ER Registration,,init,1050,995
+Release D,,absence,1050,1026
+Admission IC,,absence,1050,940
+Release E,,absence,1050,1044
+Release B,,absence,1050,994
+Release C,,absence,1050,1025

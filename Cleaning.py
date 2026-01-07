@@ -177,5 +177,5 @@ def simplify_declare_constraints(csv_path, output_path=None):
     return result
 
 if __name__ == "__main__":
-    simplified_df = simplify_declare_constraints("constraints_Robot.csv", "simplified_Robot.csv")
+    simplified_df = simplify_declare_constraints("constraints_Sep80.csv", "simplified_Sep80.csv")
     print(simplified_df)

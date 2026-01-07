@@ -6,7 +6,7 @@ from pm4py.algo.discovery.declare.variants.classic import Parameters
 log = pm4py.read_xes("Sepsis Cases - Event Log.xes")
 
 params = {
-    Parameters.MIN_SUPPORT_RATIO: 0.1,
+    Parameters.MIN_SUPPORT_RATIO: 0.8,
     Parameters.MIN_CONFIDENCE_RATIO: 0.85
 }
 
@@ -31,7 +31,7 @@ for template, rules in model.items():
         row.update(metrics)
         rows.append(row)
 
-csv_file = "declare_rules.csv"
+csv_file = "constraints_Sep80.csv"
 with open(csv_file, mode="w", newline="", encoding="utf-8") as f:
     if rows:
         writer = csv.DictWriter(f, fieldnames=rows[0].keys())
