@@ -7,7 +7,6 @@
     (done_act_b)
     (done_act_c)
     (done_act_d)
-    (done_act_e)
     (done_act_f)
     (done_act_g)
     (done_act_h)

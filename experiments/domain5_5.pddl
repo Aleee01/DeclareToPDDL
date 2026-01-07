@@ -43,25 +43,25 @@
   (:action act_b
     :parameters ()
     :precondition (and (done_act_a))
-    :effect (and (done_act_b))
+    :effect (and (done_act_b) (pending_act_b_act_c))
   )
 
   (:action act_c
     :parameters ()
     :precondition (and )
-    :effect (and (done_act_c))
+    :effect (and (done_act_c) (not (pending_act_b_act_c)))
   )
 
   (:action act_d
     :parameters ()
-    :precondition (and )
-    :effect (and (done_act_d) (pending_act_d_act_e))
+    :precondition (and (not (done_act_e)))
+    :effect (and (done_act_d))
   )
 
   (:action act_e
     :parameters ()
-    :precondition (and (done_act_d) (not (done_act_b)))
-    :effect (and (done_act_e) (not (pending_act_d_act_e)))
+    :precondition (and (not (done_act_d)))
+    :effect (and (done_act_e))
   )
 
 )
