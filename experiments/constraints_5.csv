@@ -1,6 +1,6 @@
 template,activity_a,activity_b
 existence,act_a,
-choice,act_b,act_c
-precedence, act_a,act_b
-succession,act_d, act_e
-notsuccession,act_b,act_e
+response,act_b, act_c
+notcoexistence,act_d,act_e
+precedence,act_a, act_b
+choice,act_b,act_e
