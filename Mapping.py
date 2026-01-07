@@ -3,10 +3,10 @@ import pandas as pd
 #versione ad-hoc per Declare con predicati
 
 
-input_csv = "./declare pm4py/vincoli_semplificatiTot.csv"
+input_csv = "simplified_Robot.csv"
 
-domain_output = "domainSepTot.pddl"
-problem_output = "problemSepTot.pddl"
+domain_output = "real_experiments/domain_Robot.pddl"
+problem_output = "real_experiments/problem_Robot.pddl"
 
 df = pd.read_csv(input_csv)
 df.columns = [c.strip().lower() for c in df.columns]

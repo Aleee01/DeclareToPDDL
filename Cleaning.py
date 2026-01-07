@@ -119,13 +119,13 @@ def simplify_declare_constraints(csv_path, output_path=None):
 
     SYMMETRIC_FAMILIES = {"choice", "coexistence"}
 
-    df["a_norm"] = df.apply(
+    to_simplify["a_norm"] = to_simplify.apply(
         lambda r: min(r["activity_a"], r["activity_b"])
         if r["family"] in SYMMETRIC_FAMILIES else r["activity_a"],
         axis=1
     )
 
-    df["b_norm"] = df.apply(
+    to_simplify["b_norm"] = to_simplify.apply(
         lambda r: max(r["activity_a"], r["activity_b"])
         if r["family"] in SYMMETRIC_FAMILIES else r["activity_b"],
         axis=1
@@ -168,11 +168,14 @@ def simplify_declare_constraints(csv_path, output_path=None):
 
     result = remove_conflicting_constraints(result)
 
+    result = result[["activity_a", "activity_b", "template", "support", "confidence"]]
+
+
     if output_path:
         result.to_csv(output_path, index=False)
 
     return result
 
 if __name__ == "__main__":
-    simplified_df = simplify_declare_constraints("declare_rules.csv", "vincoli_semplificati.csv")
+    simplified_df = simplify_declare_constraints("constraints_Robot.csv", "simplified_Robot.csv")
     print(simplified_df)

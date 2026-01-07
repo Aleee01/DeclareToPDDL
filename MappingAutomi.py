@@ -3,7 +3,7 @@ import os
 
 #versione con Automi
 
-CSV_PATH = os.path.join(os.getcwd(), "vincoli_semplificatiRobot.csv")
+CSV_PATH = os.path.join(os.getcwd(), "simplified_Robot.csv")
 
 
 def automaton_existence(a, idx, all_acts):
@@ -413,7 +413,7 @@ BUILDERS = {
 }
 
 
-def write_domain(path="domainRob.pddl"):
+def write_domain(path="domain_A_Robot.pddl"):
     domain = """(define (domain declare_automata)
   (:requirements :strips :typing :universal-preconditions :existential-preconditions :conditional-effects)
   (:types automaton_state activity automaton)
@@ -464,7 +464,7 @@ def write_domain(path="domainRob.pddl"):
     print(f"✅ Dominio scritto in {path}")
 
 
-def write_problem(automata, activities, path="problemRob.pddl"):
+def write_problem(automata, activities, path="problem_A_Robot.pddl"):
 
     all_states = set()
     for a in automata:
@@ -580,8 +580,8 @@ def main():
         print("⚠️ Nessun automa generato (dopo filtri).")
         return
 
-    write_domain("domainRob.pddl")
-    write_problem(automata, all_acts_sorted, "problemRob.pddl")
+    write_domain("real_experiments/domain_A_Robot.pddl")
+    write_problem(automata, all_acts_sorted, "real_experiments/problem_A_Robot.pddl")
     print("✅ Generazione completata.")
 
 
