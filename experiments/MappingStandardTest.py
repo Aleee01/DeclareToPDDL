@@ -2,9 +2,9 @@ import pandas as pd
 
 #versione con pending differente per ogni coppia
 
-input_csv = "constraints_5.csv" 
-domain_output = "domain5_5.pddl"
-problem_output = "problem5_5.pddl"
+input_csv = "constraints_7.csv" 
+domain_output = "domain7_10.pddl"
+problem_output = "problem7_10.pddl"
 
 df = pd.read_csv(input_csv)
 df.columns = [c.strip().lower() for c in df.columns]
@@ -15,7 +15,7 @@ def norm(name):
         return ""
     return str(name).strip().replace(" ", "_").replace("-", "_").lower()
 
-activities_csv = "activities_5.csv"
+activities_csv = "activities_10.csv"
 df_acts = pd.read_csv(activities_csv)
 activities = sorted([norm(a) for a in df_acts['activity'] if pd.notna(a)])
 

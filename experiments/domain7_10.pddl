@@ -49,35 +49,35 @@
     (pending_act_b_act_c)
     (pending_act_b_act_e)
     (pending_act_c_act_b)
-    (pending_act_c_act_d)
-    (pending_act_d_act_c)
+    (pending_act_c_act_e)
     (pending_act_d_act_e)
     (pending_act_e_act_b)
+    (pending_act_e_act_c)
     (pending_act_e_act_d)
   )
 
   (:action act_a
     :parameters ()
-    :precondition (and (not (pending_act_a_act_b)))
-    :effect (and (done_act_a) (pending_act_a_act_b))
+    :precondition (and )
+    :effect (and (done_act_a))
   )
 
   (:action act_b
     :parameters ()
     :precondition (and (done_act_a))
-    :effect (and (done_act_b) (not (pending_act_a_act_b)) (pending_act_b_act_c))
+    :effect (and (done_act_b) (pending_act_b_act_c))
   )
 
   (:action act_c
     :parameters ()
-    :precondition (and )
-    :effect (and (done_act_c) (last_act_c) (next_act_d) (not (next_act_c)) (not (pending_act_b_act_c)))
+    :precondition (and (not (done_act_e)))
+    :effect (and (done_act_c) (not (pending_act_b_act_c)))
   )
 
   (:action act_d
     :parameters ()
-    :precondition (and (done_act_c) (last_act_c) (next_act_d) (not (done_act_e)))
-    :effect (and (done_act_d) (last_act_d) (not (last_act_c)) (not (next_act_d)))
+    :precondition (and (not (done_act_e)))
+    :effect (and (done_act_d))
   )
 
   (:action act_e

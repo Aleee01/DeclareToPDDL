@@ -4,5 +4,5 @@ response,act_b, act_c
 notcoexistence,act_d,act_e
 precedence,act_a, act_b
 choice,act_b,act_e
-altresponse, act_a, act_b
-chainsuccession, act_c, act_d
+notsuccession,act_e,act_c
+absence,act_d,

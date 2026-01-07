@@ -1,7 +1,7 @@
 import csv
 import os
 
-CSV_PATH = os.path.join(os.getcwd(), "constraints_5.csv")
+CSV_PATH = os.path.join(os.getcwd(), "constraints_7.csv")
 
 ACTIVITIES_CSV = os.path.join(os.getcwd(), "activities_10.csv")
 
@@ -414,7 +414,7 @@ BUILDERS = {
 
 
 
-def write_domain(path="domain_A_5_10.pddl"):
+def write_domain(path="domain_A_7_10.pddl"):
     domain = """(define (domain declare_automata)
   (:requirements :strips :typing :universal-preconditions :existential-preconditions :conditional-effects)
   (:types automaton_state activity automaton)
@@ -465,7 +465,7 @@ def write_domain(path="domain_A_5_10.pddl"):
     print(f"✅ Dominio scritto in {path}")
 
 
-def write_problem(automata, activities, path="problem_A_5_10.pddl"):
+def write_problem(automata, activities, path="problem_A_7_10.pddl"):
 
     all_states = set()
     for a in automata:
@@ -607,8 +607,8 @@ def main():
         print("⚠️ Nessun automa generato")
         return
 
-    write_domain("domain_A_5_10.pddl")
-    write_problem(automata, all_acts_sorted, "problem_A_5_10.pddl")
+    write_domain("domain_A_7_10.pddl")
+    write_problem(automata, all_acts_sorted, "problem_A_7_10.pddl")
 
     print("🎉 Generazione completata con successo")
 
