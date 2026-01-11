@@ -40,6 +40,23 @@ def automaton_init(a, idx, all_acts):
         "transitions": transitions,
     }
 
+def automaton_end(a, idx, all_acts):
+    s0 = f"init_{a}_s0_{idx}"
+    s1 = f"init_{a}_s1_{idx}"
+    s2 = f"init_{a}_s2_{idx}"
+    transitions = [(s0, a, s1), (s2, a, s1)]
+    for act in all_acts:
+        if act != a:
+            transitions.append((s0, act, s0))
+            transitions.append((s1, act, s2))
+    return {
+        "name": f"init_{a}_{idx}",
+        "states": [s0, s1, s2],
+        "init": s0,
+        "final": s1,
+        "transitions": transitions,
+    }
+
 def automaton_absence(a, idx, all_acts):
     s0 = f"ab_{a}_s0_{idx}"
     sink = f"ab_{a}_sink_{idx}"
@@ -399,6 +416,7 @@ BUILDERS = {
     "coexistence": automaton_coexistence,
     "responded_existence": automaton_respondedexistence,
     "init": automaton_init,
+    "end" : automaton_end,
     "exactly_one": automaton_exactlyone,
     "choice": automaton_choice,
     "exclusivechoice": automaton_exclusivechoice,
