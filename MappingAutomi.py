@@ -1,7 +1,7 @@
 import csv
 import os
 
-#versione con Automi
+#versione con Automi 
 
 CSV_PATH = os.path.join(os.getcwd(), "simplified_Sep80.csv")
 
