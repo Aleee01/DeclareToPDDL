@@ -1,0 +1,16 @@
+digraph Existence {
+    rankdir=LR;
+    
+    // Stati
+    node [shape = circle];
+    s01;
+    
+    // Stato finale
+    node [shape = doublecircle];
+    s00;
+    
+    // Transizioni
+    s01 -> s01 [label="not a"];
+    s01 -> s00 [label="a"];
+    s00 -> s00 [label="*"];
+}

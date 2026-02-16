@@ -1,0 +1,17 @@
+digraph Absence {
+    rankdir=LR;
+    
+    // Stati
+    node [shape = circle];
+    s11;
+    
+    // Stato finale
+    node [shape = doublecircle];
+    s10;
+    
+    
+    // Transizioni
+    s10 -> s10 [label="not b"];
+    s10 -> s11 [label="b"];
+    s11 -> s11 [label="*"];
+}
