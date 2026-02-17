@@ -13,6 +13,7 @@ class Transition:
     label: str
     automaton: str
 
+#STEP 1: Individuare per ogni automa le transizioni tra gli stati
 def load_transitions_raw(dot_file, automaton_name):
     transitions = []
     graphs = pydot.graph_from_dot_file(dot_file)
@@ -35,10 +36,12 @@ def load_transitions_raw(dot_file, automaton_name):
         })
     return transitions
 
-
+#Espandere le transizioni NOT e *
 def expand_transitions(raw_transitions, alphabet):
     transitions = []
-    counter = 0
+    
+    # un contatore per ogni automa
+    counters = defaultdict(int)
 
     for t in raw_transitions:
         src = t["src"]
@@ -46,11 +49,10 @@ def expand_transitions(raw_transitions, alphabet):
         label = t["label"]
         automaton = t["automaton"]
 
-        # ignora transizioni con label vuota
         if not label:
             continue
 
-        #ignora loop
+        #Per considerare solo transizioni tra stati differenti
         if src==dest:
             continue
 
@@ -60,101 +62,178 @@ def expand_transitions(raw_transitions, alphabet):
             excluded = m.group(1)
             for activity in alphabet:
                 if activity != excluded:
+                    transition_id = f"TR_{automaton}_{counters[automaton]}"
+                    counters[automaton] += 1
+
                     transitions.append(
                         Transition(
-                            id=f"{automaton}_t{counter}",
+                            id=transition_id,
                             src=src,
                             dest=dest,
                             label=activity,
                             automaton=automaton
                         )
                     )
-                    counter += 1
             continue
 
         # CASO: *
         if label == "*":
             for activity in alphabet:
+                transition_id = f"TR_{automaton}_{counters[automaton]}"
+                counters[automaton] += 1
+
                 transitions.append(
                     Transition(
-                        id=f"{automaton}_t{counter}",
+                        id=transition_id,
                         src=src,
                         dest=dest,
                         label=activity,
                         automaton=automaton
                     )
                 )
-                counter += 1
             continue
 
         # CASO normale
+        transition_id = f"TR_{automaton}_{counters[automaton]}"
+        counters[automaton] += 1
+
         transitions.append(
             Transition(
-                id=f"{automaton}_t{counter}",
+                id=transition_id,
                 src=src,
                 dest=dest,
                 label=label,
                 automaton=automaton
             )
         )
-        counter += 1
 
     return transitions
 
+#STEP 2: Estrarre le categorie di transizioni sulla base della loro etichetta
 def group_transitions_by_label(transitions):
     grouped = defaultdict(list)
     for t in transitions:
-        # Assicurati di ignorare eventuali label vuote
         if t.label:
             grouped[t.label].append(t.id)
-    return dict(grouped)  # converte da defaultdict a dict normale
+    return dict(grouped)  
+
+#STEP 3: Per ogni gruppo di transizioni riguardanti una specifica attività è necessario trovare tutte le loro combinazioni semplici 
+# senza ripetizioni di lunghezza k con k tra 1 e M, dove M è il numero di automi distinti che contribuiscono ad almeno 1 transizione del gruppo.
+#In questo modo verranno rimosse combinazioni contenenti transizioni verso lo stesso automa (solo 1 transizione alla volta può effettuarsi in un automa)
 
 from itertools import combinations
 
-def generate_valid_combinations_per_label(transitions):
-    """
-    transitions: lista di oggetti Transition
-    """
+def generate_combinations(transitions):
     
-    # numero di automi distinti
+    #calcolo M = automi distinti
     distinct_automata = set(t.automaton for t in transitions)
     m = len(distinct_automata)
 
-    # raggruppa per label
-    grouped = group_transitions_by_label(transitions)
-
     result = {}
 
-    for label, ids in grouped.items():
+    labels = set(t.label for t in transitions)
+
+    for label in labels:
         label_transitions = [t for t in transitions if t.label == label]
+        label_result = []
 
-        valid_combinations = []
-
-        # k tra 1 e m
         for k in range(1, min(m, len(label_transitions)) + 1):
             for combo in combinations(label_transitions, k):
-                
-                # controlla che gli automi siano tutti distinti
-                automata = [t.automaton for t in combo]
-                if len(set(automata)) == len(automata):
-                    valid_combinations.append(tuple(t.id for t in combo))
 
-        result[label] = valid_combinations
+                #si ignorano combinazioni che contengono transizioni appartenti allo stesso automa poichè è impossibile eseguirle
+                automata_in_combo = {t.automaton for t in combo}
+                if len(automata_in_combo) != len(combo):
+                    continue
+
+                combo_ids = {t.id for t in combo}
+
+                extended_combo = list(combo_ids)
+
+                #Per ogni combinazione si devono inserire anche le negazioni delle transizioni non appartententi a quella combinazione 
+                # e relative ad automi differenti da quelli delle transizioni nella combinazione 
+                for t in label_transitions:
+                    if (
+                        t.id not in combo_ids
+                        and t.automaton not in automata_in_combo
+                    ):
+                        extended_combo.append(f"not {t.id}")
+
+                label_result.append(tuple(sorted(extended_combo)))
+
+        result[label] = label_result
 
     return result
 
+#Per recuperare gli elementi di una transizione dall'ID
+def build_transition_map(transitions):
+    return {t.id: t for t in transitions}
+
+def generate_pddl_domain(combinations_per_label, transition_map):
+
+    actions = []
+    action_counter = 0
+
+    for label, combos in combinations_per_label.items():
+
+        for combo in combos:
+
+            action_name = f"sync_{label}_{action_counter}"
+            action_counter += 1
+
+            preconditions = []
+            effects = []
+
+            for elem in combo:
+
+                is_negated = elem.startswith("not ")
+                tid = elem.replace("not ", "")
+
+                t = transition_map[tid]
+
+                if is_negated:
+                    # NOT precondition
+                    preconditions.append(
+                        f"(not (cur_state {t.src}))"
+                    )
+                else:
+                    # positive precondition
+                    preconditions.append(
+                        f"(cur_state {t.src})"
+                    )
+
+                    # effect
+                    effects.append(
+                        f"(not (cur_state {t.src}))"
+                    )
+                    effects.append(
+                        f"(cur_state {t.dest})"
+                    )
+
+            action_str = f"""
+(:action {action_name}
+ :precondition (and
+    {' '.join(preconditions)}
+ )
+ :effect (and
+    {' '.join(effects)}
+ )
+)
+"""
+            actions.append(action_str)
+
+    return actions
 
 
 # --- MAIN ---
-files = ["Absence.dot", "ChainSuccession.dot", "ExclusiveChoice.dot", "Existence.dot"]
+files = ["A0.dot", "A1.dot", "A2.dot", "A3.dot"]
 
-# 1. Leggere tutte le transizioni
+#STEP 1: Leggere le transizioni
 all_raw = []
 for file in files:
     name = os.path.splitext(file)[0]
     all_raw.extend(load_transitions_raw(file, name))
 
-# 2. Costruisci l'alfabeto
+#Costruire l'alfabeto
 alphabet = set()
 for t in all_raw:
     lbl = t["label"]
@@ -162,24 +241,33 @@ for t in all_raw:
         continue
     alphabet.add(lbl)
 
-print("Alfabeto rilevato:", alphabet)
+print("\nAlfabeto rilevato:", alphabet)
 
-# 3. Espandi transizioni not e *
+#Espandere transizioni NOT e *
 all_transitions = expand_transitions(all_raw, alphabet)
 
+print("\nTransizioni rilevate:")
 print(all_transitions)
 
-# --- Esempio di utilizzo ---
-label_to_ids = group_transitions_by_label(all_transitions)
+#STEP 2: Raggruppare per etichetta
+grouped = group_transitions_by_label(all_transitions)
 
-for label, ids in label_to_ids.items():
+print("\nGroups of transitions")
+for label, ids in grouped.items():
     print(f"{label}: {', '.join(ids)}")
 
-# 3. Genera combinazioni valide
-combinations_per_label = generate_valid_combinations_per_label(all_transitions)
+#STEP 3: Generare le combinazioni
+combinations_per_label = generate_combinations(all_transitions)
 
-# 4. Usa il risultato
 for label, combs in combinations_per_label.items():
-    print(f"\nLabel {label}:")
+    print(f"\nCombinations for {label}:")
     for c in combs:
         print(c)
+
+transition_map = build_transition_map(all_transitions)
+
+pddl_actions = generate_pddl_domain(combinations_per_label, transition_map)
+
+print("\n--- PDDL ACTIONS ---")
+for act in pddl_actions:
+    print(act)
