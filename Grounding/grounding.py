@@ -1,4 +1,5 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import Set, List
 from collections import defaultdict
 from itertools import combinations
 import pydot
@@ -12,6 +13,39 @@ class Transition:
     dest: str
     label: str
     automaton: str
+
+@dataclass
+class Automaton:
+    name: str
+    states: Set[str] = field(default_factory=set)
+    init: str = None
+    final_states: Set[str] = field(default_factory=set)
+
+#Carica l'automa nella classe per denotare stati e set di stati finali
+def load_automaton(dot_file, automaton_name):
+    graphs = pydot.graph_from_dot_file(dot_file)
+    graph = graphs[0]
+
+    automaton = Automaton(name=automaton_name)
+
+    for node in graph.get_nodes():
+        name = node.get_name().strip('"')
+
+        if name in ("node", "graph", "edge"):
+            continue
+
+        automaton.states.add(name)
+
+        attrs = node.get_attributes()
+        shape = attrs.get("shape")
+
+        if attrs.get("initial"):
+            automaton.init = name
+
+        if shape == "doublecircle":
+            automaton.final_states.add(name)
+
+    return automaton
 
 #STEP 1: Individuare per ogni automa le transizioni tra gli stati
 def load_transitions_raw(dot_file, automaton_name):
@@ -168,6 +202,49 @@ def generate_combinations(transitions):
 def build_transition_map(transitions):
     return {t.id: t for t in transitions}
 
+#Scartare quelle combinazioni per cui esiste una transizione verso un sink (non finale e senza archi uscenti, non in final state and non src)
+def find_sink_states(automaton, transitions):
+    # stati che sono sorgente di almeno una transizione
+    src_states = {t.src for t in transitions if t.automaton == automaton.name}
+
+    sink_states = set()
+
+    for state in automaton.states:
+        if (
+            state not in automaton.final_states
+            and state not in src_states
+        ):
+            sink_states.add(state)
+
+    return sink_states
+
+def delete_sink_combinations(combinations_per_label, transition_map, sink_map):
+    filtered = {}
+
+    for label, combos in combinations_per_label.items():
+        valid_combos = []
+
+        for combo in combos:
+            discard = False
+
+            for elem in combo:
+                if elem.startswith("not "):
+                    continue
+
+                t = transition_map[elem]
+
+                # Se la transizione porta a un sink → scarta
+                if t.dest in sink_map[t.automaton]:
+                    discard = True
+                    break
+
+            if not discard:
+                valid_combos.append(combo)
+
+        filtered[label] = valid_combos
+
+    return filtered
+
 def generate_pddl_domain(combinations_per_label, transition_map):
 
     actions = []
@@ -223,15 +300,86 @@ def generate_pddl_domain(combinations_per_label, transition_map):
 
     return actions
 
+#Genera il dominio
+def generate_pddl_domain_file(actions, path="domain.pddl", ):
+
+    domain_str = f"""
+(define (domain multi_automata_sync)
+
+ (:requirements :strips)
+
+ (:predicates
+    (cur_state ?s)
+ )
+
+ {' '.join(actions)}
+
+)
+"""
+    with open(path, "w") as f:
+        f.write(domain_str)
+    print(f"✅ Dominio scritto in {path}")
+
+def generate_pddl_problem(all_automata, path="problem.pddl"):
+
+    objects = []
+    init = []
+    goal = []
+
+    for automaton in all_automata:
+        for s in automaton.states:
+            objects.append(s)
+
+        init.append(f"(cur_state {automaton.init})")
+
+        finals = list(automaton.final_states)
+        if not finals:
+            continue
+
+        if len(finals) == 1:
+            # solo uno stato finale
+            goal.append(f"(cur_state {finals[0]})")
+        else:
+            # più stati finali dello stesso automa → OR
+            or_clause = "(or " + " ".join(f"(cur_state {f})" for f in finals) + ")"
+            goal.append(or_clause)
+            
+
+    problem_str = f"""
+(define (problem sync_problem)
+ (:domain multi_automata_sync)
+
+ (:objects
+    {' '.join(objects)}
+ )
+
+ (:init
+    {' '.join(init)}
+ )
+
+ (:goal
+    (and
+        {' '.join(goal)}
+    )
+ )
+)
+"""
+    with open(path, "w") as f:
+        f.write(problem_str)
+    print(f"✅ Problema scritto in {path}")
 
 # --- MAIN ---
 files = ["A0.dot", "A1.dot", "A2.dot", "A3.dot"]
 
 #STEP 1: Leggere le transizioni
 all_raw = []
+all_automata = []
 for file in files:
     name = os.path.splitext(file)[0]
     all_raw.extend(load_transitions_raw(file, name))
+    all_automata.append(load_automaton(file, name))
+
+print(all_automata)
 
 #Costruire l'alfabeto
 alphabet = set()
@@ -266,8 +414,32 @@ for label, combs in combinations_per_label.items():
 
 transition_map = build_transition_map(all_transitions)
 
-pddl_actions = generate_pddl_domain(combinations_per_label, transition_map)
+sink_map = {}
+
+for automaton in all_automata:
+    sinks = find_sink_states(automaton, all_transitions)
+    sink_map[automaton.name] = sinks
+
+print("\nSink states:")
+print(sink_map)
+
+nosink_combinations = delete_sink_combinations(
+    combinations_per_label,
+    transition_map,
+    sink_map
+)
+
+for label, combs in nosink_combinations.items():
+    print(f"\nNosink_Combinations for {label}:")
+    for c in combs:
+        print(c)
+
+pddl_actions = generate_pddl_domain(nosink_combinations, transition_map)
+
 
 print("\n--- PDDL ACTIONS ---")
 for act in pddl_actions:
     print(act)
+
+domain_str = generate_pddl_domain_file(pddl_actions, "domain.pddl")
+problem_str = generate_pddl_problem(all_automata, "problem.pddl")

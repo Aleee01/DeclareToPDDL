@@ -2,12 +2,10 @@ digraph Existence {
     rankdir=LR;
     
     // Stati
-    node [shape = circle];
-    s01;
-    
+    s01 [shape = circle, initial=true];
+
     // Stato finale
-    node [shape = doublecircle];
-    s00;
+    s00 [shape = doublecircle];
     
     // Transizioni
     s01 -> s01 [label="not a"];

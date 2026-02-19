@@ -2,14 +2,12 @@ digraph ExclusiveChoice {
     rankdir=LR;
     
     // Stati
-    node [shape = circle];
-    s31;
-    s32;
-    s33;
+    s31 [shape = circle];
+    s33 [shape = circle, initial = true];
     
     // Stato finale
-    node [shape = doublecircle];
-    s30;
+    s30  [shape = doublecircle];
+    s32 [shape = doublecircle];
     
     // Transizioni
     s30 -> s30 [label="not c"];

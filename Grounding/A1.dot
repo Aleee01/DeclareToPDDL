@@ -2,12 +2,10 @@ digraph Absence {
     rankdir=LR;
     
     // Stati
-    node [shape = circle];
-    s11;
+    s11 [shape = circle];
     
     // Stato finale
-    node [shape = doublecircle];
-    s10;
+    s10 [shape = doublecircle, initial = true];
     
     
     // Transizioni

@@ -1,15 +1,12 @@
 digraph ChainSuccession {
     rankdir=LR;
     
-    
     // Stati
-    node [shape = circle];
-    s21;
-    s22;
+    s21 [shape = circle];
+    s22 [shape = circle];
     
     // Stato finale
-    node [shape = doublecircle];
-    s20;
+    s20 [shape = doublecircle, initial = true];
     
     // Transizioni
     s20 -> s20 [label="not a"];
