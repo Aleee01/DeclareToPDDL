@@ -4,6 +4,7 @@ digraph ExclusiveChoice {
     // Stati
     s31 [shape = circle];
     s33 [shape = circle, initial = true];
+    s3abs[shape = circle, abstract = true];
     
     // Stato finale
     s30  [shape = doublecircle];

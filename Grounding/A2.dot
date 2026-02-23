@@ -9,8 +9,7 @@ digraph ChainSuccession {
     s20 [shape = doublecircle, initial = true];
     
     // Transizioni
-    s20 -> s20 [label="not a"];
-    s20 -> s20 [label="not d"];
+    s20 -> s20 [label="not a d"];
     s20 -> s21 [label="d"];
     s20 -> s22 [label="a"];
     s22 -> s20 [label="d"];
