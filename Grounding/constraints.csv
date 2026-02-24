@@ -1,0 +1,5 @@
+template,activity_a,activity_b
+existence,a,
+absence,b,
+chainsuccession,a,d
+exclusivechoice,a,c
