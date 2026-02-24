@@ -1,25 +1,26 @@
+#Versione yield
+
 from parser import parse_declare_csv, extract_alphabet, filter_absence_constraints
 from builders import declare_factory, build_automaton_from_dict
-from pddl_generator import (
+from pddl2 import (
     group_transitions_by_label,
     build_transition_map,
-    generate_combinations,
-    delete_sink_combinations,
-    generate_pddl_actions,
-    generate_finish_actions,
+    generate_combinations_gen,
+    delete_sink_combinations_gen,
+    generate_pddl_actions_gen,
+    generate_finish_actions_gen,
     generate_pddl_domain_file,
     generate_pddl_problem,
     find_sink_states
 )
 
-
-#STEP 1: Leggo i vincoli Declare dal CSV
-csv_path = "../simplified_Robot.csv" 
+# STEP 1: Leggo i vincoli Declare dal CSV
+csv_path = "constraints.csv" 
 constraints = parse_declare_csv(csv_path)
 constraints = filter_absence_constraints(constraints)
 alphabet = extract_alphabet(constraints)
 
-#STEP 2: Genero Automi e Transizioni
+# STEP 2: Genero Automi e Transizioni
 all_automata = []
 all_transitions = []
 
@@ -35,7 +36,7 @@ print("\nAutomata founded:\n")
 print("\nTransitions founded:\n")
 #print(all_transitions)
 
-#STEP 3: Raggruppo le transizioni per attività
+# STEP 3: Raggruppo le transizioni per attività
 grouped = group_transitions_by_label(all_transitions)
 transition_map = build_transition_map(all_transitions)
 
@@ -44,7 +45,7 @@ print("\nGroup of transitions")
     #print(f"{label}: {', '.join(ids)}")
 
 #STEP 4: Genero le combinaizioni
-combinations_per_label = generate_combinations(all_transitions)
+comb_gen = generate_combinations_gen(all_transitions)
 
 """for label, combs in combinations_per_label.items():
     print(f"\nCombinations for {label}:")
@@ -53,7 +54,7 @@ combinations_per_label = generate_combinations(all_transitions)
 
 #STEP 5: Cerco i sink states e elimino le combinazioni verso almeno uno di essi
 sink_map = {a.name: find_sink_states(a, all_transitions) for a in all_automata}
-nosink_combinations = delete_sink_combinations(combinations_per_label, transition_map, sink_map)
+filtered_comb_gen = delete_sink_combinations_gen(comb_gen, transition_map, sink_map)
 
 print("\nSink states:")
 #print(sink_map)
@@ -64,12 +65,15 @@ print("\nSink states:")
         print(c)"""
 
 #STEP 6: Genero le SYNC in PDDL
-pddl_actions = generate_pddl_actions(nosink_combinations, transition_map)
+actions_gen = generate_pddl_actions_gen(transition_map, filtered_comb_gen)
 
 #STEP 7: Genero le finish per il problema dei finali multipli
 if any(len(a.final_states) > 1 for a in all_automata):
-    pddl_actions += generate_finish_actions(all_automata)
-
+    finish_gen = generate_finish_actions_gen(all_automata)
+    # concateno i generator
+    from itertools import chain
+    actions_gen = chain(actions_gen, finish_gen)
+    
 #STEP 8: Genero dominio e problema PDDL
-generate_pddl_domain_file(pddl_actions, path="domain.pddl")
+generate_pddl_domain_file(actions_gen, path="domain.pddl")
 generate_pddl_problem(all_automata, path="problem.pddl")

@@ -32,3 +32,27 @@ def extract_alphabet(constraints):
             alphabet.add(c["act2"])
 
     return list(alphabet)
+
+#Per ignorare vincoli absence se l'attività partecipa anche in altri vincoli
+def filter_absence_constraints(constraints):
+    activity_constraints = {}
+
+    for c in constraints:
+        for act in [c.get("act1"), c.get("act2")]:
+            if act:
+                activity_constraints.setdefault(act, set()).add(c["type"])
+
+    filtered = []
+    for c in constraints:
+        if c["type"] == "absence":
+            acts = [c.get("act1"), c.get("act2")]
+            skip = False
+            for act in acts:
+                if act and len(activity_constraints[act] - {"absence"}) > 0:
+                    skip = True
+                    break
+            if skip:
+                continue 
+        filtered.append(c)
+
+    return filtered
