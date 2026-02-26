@@ -1,0 +1,10 @@
+template,activity_a,activity_b
+existence,a,
+response,b,c
+notcoexistence,d,e
+choice,b,e
+chainprecedence,a,b
+notsuccession,d,c
+pattern_gap,,
+prefix,,
+minlen,,

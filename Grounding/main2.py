@@ -15,11 +15,12 @@ from pddl2 import (
 )
 
 # STEP 1: Leggo i vincoli Declare dal CSV
-csv_path = "constraints.csv" 
+csv_path = "./experiments/constraints9.csv" 
 constraints = parse_declare_csv(csv_path)
 constraints = filter_absence_constraints(constraints)
 #alphabet = extract_alphabet(constraints)
 
+#alphabet = ["a", "b", "c", "d", "e"]
 alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l"]
 
 # STEP 2: Genero Automi e Transizioni
@@ -78,5 +79,5 @@ if any(len(a.final_states) > 1 for a in all_automata):
     actions_gen = chain(actions_gen, finish_gen)
     
 #STEP 8: Genero dominio e problema PDDL
-generate_pddl_domain_file(actions_gen, path="domain.pddl")
-generate_pddl_problem(all_automata, path="problem.pddl")
+generate_pddl_domain_file(actions_gen, path="domain9.pddl")
+generate_pddl_problem(all_automata, path="problem9.pddl")

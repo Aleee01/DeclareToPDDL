@@ -634,11 +634,10 @@ def automaton_minlen(idx, all_acts):
     print("Write the minimum length (empty row to finish):")
     len = int(input())
 
-    states = [f"min_s{i}_{idx}" for i in range(len + 2)]
+    states = [f"min_s{i}_{idx}" for i in range(len + 1)]
 
     init = states[0]
     final = states[len]
-    sink = states[len+1]
 
     transitions = []
 
@@ -647,8 +646,7 @@ def automaton_minlen(idx, all_acts):
             transitions.append((states[j], act, states[j+1]))
     
     for act in all_acts:
-        transitions.append((final, act, sink))
-        transitions.append((sink, act, sink))
+        transitions.append((final, act, final))
 
     return {
         "name": f"minlen_{idx}",
