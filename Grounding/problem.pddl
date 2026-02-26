@@ -3,16 +3,16 @@
 (:domain multi_automata_sync)
 
 (:objects
-    ex_a_s0_0 ex_a_s1_0 ab_b_s0_1 ab_b_s1_1 chainsucc_a_d_s1_2 chainsucc_a_d_s2_2 chainsucc_a_d_s0_2 exchoice_a_c_s3_3 exchoice_a_c_s2_3 exchoice_a_c_s0_3 exchoice_a_c_sabs_3 exchoice_a_c_s1_3
+    ex_d_s0_0 ex_d_s1_0 pre_s1_1 pre_s3_1 pre_s0_1 pre_s4_1 pre_s2_1 min_s2_2 min_s3_2 min_s1_2 min_s4_2 min_s0_2
 )
 
 (:init
-    (cur_state ex_a_s0_0) (cur_state ab_b_s0_1) (cur_state chainsucc_a_d_s0_2) (cur_state exchoice_a_c_s0_3)
+    (cur_state ex_d_s0_0) (cur_state pre_s0_1) (cur_state min_s0_2)
 )
 
 (:goal
     (and
-        (cur_state ex_a_s1_0) (cur_state ab_b_s0_1) (cur_state chainsucc_a_d_s0_2) (cur_state exchoice_a_c_sabs_3)
+        (cur_state ex_d_s1_0) (cur_state pre_s3_1) (cur_state min_s3_2)
     )
 )
 )

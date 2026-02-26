@@ -132,7 +132,7 @@ def find_sink_states(automaton, transitions):
 
     return sink_states
 
-def delete_sink_combinations(combinations_per_label, transition_map, sink_map):
+"""def delete_sink_combinations(combinations_per_label, transition_map, sink_map):
     filtered = {}
 
     for label, combos in combinations_per_label.items():
@@ -157,7 +157,7 @@ def delete_sink_combinations(combinations_per_label, transition_map, sink_map):
 
         filtered[label] = valid_combos
 
-    return filtered
+    return filtered"""
 
 #Genera le combinazioni finali per stati finali multipli
 def generate_finish_combinations(all_automata):

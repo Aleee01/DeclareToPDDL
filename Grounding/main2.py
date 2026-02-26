@@ -18,7 +18,9 @@ from pddl2 import (
 csv_path = "constraints.csv" 
 constraints = parse_declare_csv(csv_path)
 constraints = filter_absence_constraints(constraints)
-alphabet = extract_alphabet(constraints)
+#alphabet = extract_alphabet(constraints)
+
+alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l"]
 
 # STEP 2: Genero Automi e Transizioni
 all_automata = []
@@ -34,7 +36,7 @@ print("\nAutomata founded:\n")
 #print(all_automata)
 
 print("\nTransitions founded:\n")
-#print(all_transitions)
+print(all_transitions)
 
 # STEP 3: Raggruppo le transizioni per attività
 grouped = group_transitions_by_label(all_transitions)

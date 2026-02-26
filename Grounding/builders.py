@@ -52,6 +52,8 @@ def build_automaton_from_dict(definition):
 
     return automaton, transitions
 
+
+
 #Funzioni di costruzione degli automi a partire dai vincoli Declare
 def automaton_existence(a, idx, all_acts):
     s0 = f"ex_{a}_s0_{idx}"
@@ -474,6 +476,188 @@ def automaton_exactlyone(a, idx, all_acts):
         "transitions": transitions,
     }
 
+def automaton_prefix(idx, all_acts):
+    activities = []
+    print("Write the prefix (empty row to finish):")
+    
+    while True:
+        act = input()
+        if act == "":
+            break
+        activities.append(act)
+        all_acts.append(act)
+
+    n = len(activities)
+
+    states = [f"pre_s{i}_{idx}" for i in range(n + 2)]
+
+    sink = states[n+1]
+    final = states[n]
+    transitions = []
+    for j in range(n):
+        transitions.append((states[j], activities[j], states[j+1]))
+
+    for i in range(n):   
+        for act in all_acts:
+            if act != activities[i]:
+                transitions.append((states[i], act, sink))
+
+    for act in all_acts:
+        transitions.append((final, act, final))
+        transitions.append((sink, act, sink))
+
+    return {
+        "name": f"prefix_{idx}",
+        "states": states,
+        "init": states[0],
+        "final": final,
+        "transitions": transitions,
+}
+
+def automaton_suffix(idx, all_acts):
+    activities = []
+    print("Write the suffix (empty row to finish):")
+    
+    while True:
+        act = input()
+        if act == "":
+            break
+        activities.append(act)
+        all_acts.append(act)
+
+    n = len(activities)
+
+    states = [f"suf_s{i}_{idx}" for i in range(n + 2)]
+
+    sink = states[n+1]
+    final = states[n]
+    transitions = []
+    for j in range(n):
+        transitions.append((states[j], activities[j], states[j+1]))
+
+    for i in range(1,n):   
+        for act in all_acts:
+            if act != activities[i]:
+                transitions.append((states[i], act, sink))
+
+    for act in all_acts:
+        transitions.append((final, act, sink))
+        transitions.append((sink, act, sink))
+        if act!=activities[0]:
+            transitions.append((states[0], act, states[0]))
+
+    return {
+        "name": f"suffix_{idx}",
+        "states": states,
+        "init": states[0],
+        "final": final,
+        "transitions": transitions,
+}
+
+def automaton_pattern(idx, all_acts):
+    activities = []
+    print("Write the pattern (empty row to finish):")
+    
+    while True:
+        act = input()
+        if act == "":
+            break
+        activities.append(act)
+        all_acts.append(act)
+
+    n = len(activities)
+
+    states = [f"pat_s{i}_{idx}" for i in range(n + 1)]
+
+    init = states[0]
+    final = states[n]
+    transitions = []
+    for j in range(n):
+        transitions.append((states[j], activities[j], states[j+1]))
+
+    for i in range(1,n):   
+        for act in all_acts:
+            if act != activities[i]:
+                transitions.append((states[i], act, init))
+
+    for act in all_acts:
+        transitions.append((final, act, final))
+        if act!=activities[0]:
+            transitions.append((init, act, init))
+
+    return {
+        "name": f"pattern_{idx}",
+        "states": states,
+        "init": init,
+        "final": final,
+        "transitions": transitions,
+}
+
+def automaton_pattern_gap(idx, all_acts):
+    activities = []
+    print("Write the pattern (with gaps) (empty row to finish):")
+    
+    while True:
+        act = input()
+        if act == "":
+            break
+        activities.append(act)
+        all_acts.append(act)
+
+    n = len(activities)
+
+    states = [f"patg_s{i}_{idx}" for i in range(n + 1)]
+
+    init = states[0]
+    final = states[n]
+    transitions = []
+    for j in range(n):
+        transitions.append((states[j], activities[j], states[j+1]))
+
+    for i in range(n):   
+        for act in all_acts:
+            if act != activities[i]:
+                transitions.append((states[i], act, states[i]))
+
+    for act in all_acts:
+        transitions.append((final, act, final))
+
+    return {
+        "name": f"pattern_gap_{idx}",
+        "states": states,
+        "init": init,
+        "final": final,
+        "transitions": transitions,
+}
+
+def automaton_minlen(idx, all_acts):
+    print("Write the minimum length (empty row to finish):")
+    len = int(input())
+
+    states = [f"min_s{i}_{idx}" for i in range(len + 2)]
+
+    init = states[0]
+    final = states[len]
+    sink = states[len+1]
+
+    transitions = []
+
+    for j in range(len):
+        for act in all_acts:
+            transitions.append((states[j], act, states[j+1]))
+    
+    for act in all_acts:
+        transitions.append((final, act, sink))
+        transitions.append((sink, act, sink))
+
+    return {
+        "name": f"minlen_{idx}",
+        "states": states,
+        "init": init,
+        "final": final,
+        "transitions": transitions,
+}
+
 def declare_factory(constraint, idx, alphabet):
     ctype = constraint["type"]
     A = constraint.get("act1")
@@ -488,8 +672,8 @@ def declare_factory(constraint, idx, alphabet):
         "response": lambda: automaton_response(A, B, idx, alphabet),
         "precedence": lambda: automaton_precedence(A, B, idx, alphabet),
         "succession": lambda: automaton_succession(A, B, idx, alphabet),
-        #"notresponse": lambda: automaton_notsuccession(A, B, idx, alphabet),
-        #"notprecedence": lambda: automaton_notsuccession(A, B, idx, alphabet),
+        "notresponse": lambda: automaton_notsuccession(A, B, idx, alphabet),
+        "notprecedence": lambda: automaton_notsuccession(A, B, idx, alphabet),
         "notsuccession": lambda: automaton_notsuccession(A, B, idx, alphabet),
         "altresponse": lambda: automaton_altresponse(A, B, idx, alphabet),
         "altprecedence": lambda: automaton_altprecedence(A, B, idx, alphabet),
@@ -497,14 +681,20 @@ def declare_factory(constraint, idx, alphabet):
         "chainresponse": lambda: automaton_chain_response(A, B, idx, alphabet),
         "chainprecedence": lambda: automaton_chain_precedence(A, B, idx, alphabet),
         "chainsuccession": lambda: automaton_chain_succession(A, B, idx, alphabet),
-        #"notchainresponse": lambda: automaton_notchainsucc(A, B, idx, alphabet),
-        #"notchainprecedence": lambda: automaton_notchainsucc(A, B, idx, alphabet),
+        "notchainresponse": lambda: automaton_notchainsucc(A, B, idx, alphabet),
+        "notchainprecedence": lambda: automaton_notchainsucc(A, B, idx, alphabet),
         "notchainsuccession": lambda: automaton_notchainsucc(A, B, idx, alphabet),
         "choice": lambda: automaton_choice(A, B, idx, alphabet),
         "exclusivechoice": lambda: automaton_exclusivechoice(A, B, idx, alphabet),
         "responded_existence": lambda: automaton_respondedexistence(A, B, idx, alphabet),
         "coexistence": lambda: automaton_coexistence(A, B, idx, alphabet),
         "notcoexistence": lambda: automaton_notcoexistence(A, B, idx, alphabet),
+        "notresponded_existence": lambda: automaton_notcoexistence(A, B, idx, alphabet),
+        "prefix": lambda: automaton_prefix(idx, alphabet),
+        "suffix": lambda: automaton_suffix(idx, alphabet),
+        "pattern": lambda: automaton_pattern(idx, alphabet),
+        "pattern_gap": lambda: automaton_pattern_gap(idx, alphabet),
+        "minlen": lambda: automaton_minlen(idx, alphabet),
     }
 
     if ctype not in mapping:
