@@ -1,77 +1,77 @@
 template,activity_a,activity_b,support,confidence
 responded_existence,ER Registration,ER Triage,1050,1050
-responded_existence,Leucocytes,ER Registration,1012,1012
+responded_existence,CRP,Leucocytes,1007,1006
+responded_existence,Leucocytes,CRP,1012,1006
+responded_existence,ER Sepsis Triage,CRP,1049,1006
+responded_existence,LacticAcid,Leucocytes,860,860
+responded_existence,LacticAcid,IV Antibiotics,860,789
+responded_existence,ER Sepsis Triage,Leucocytes,1049,1011
+responded_existence,ER Triage,Leucocytes,1050,1012
+responded_existence,CRP,ER Triage,1007,1007
+responded_existence,Leucocytes,ER Triage,1012,1012
+responded_existence,LacticAcid,ER Triage,860,860
+responded_existence,ER Sepsis Triage,ER Triage,1049,1049
 responded_existence,ER Registration,ER Sepsis Triage,1050,1049
 responded_existence,LacticAcid,CRP,860,860
-responded_existence,Leucocytes,CRP,1012,1006
-responded_existence,CRP,LacticAcid,1007,860
-responded_existence,CRP,ER Triage,1007,1007
-responded_existence,CRP,ER Sepsis Triage,1007,1006
-responded_existence,LacticAcid,ER Triage,860,860
-responded_existence,Leucocytes,ER Triage,1012,1012
-responded_existence,LacticAcid,ER Sepsis Triage,860,859
-responded_existence,LacticAcid,ER Registration,860,860
-responded_existence,Leucocytes,ER Sepsis Triage,1012,1011
-responded_existence,ER Registration,Leucocytes,1050,1012
-responded_existence,ER Triage,Leucocytes,1050,1012
-responded_existence,ER Sepsis Triage,ER Registration,1049,1049
-responded_existence,CRP,Leucocytes,1007,1006
-responded_existence,ER Sepsis Triage,CRP,1049,1006
-responded_existence,LacticAcid,IV Antibiotics,860,789
 responded_existence,ER Triage,CRP,1050,1007
-responded_existence,ER Sepsis Triage,ER Triage,1049,1049
-responded_existence,ER Triage,ER Sepsis Triage,1050,1049
-responded_existence,ER Triage,ER Registration,1050,1050
+responded_existence,Leucocytes,ER Registration,1012,1012
+responded_existence,CRP,LacticAcid,1007,860
+responded_existence,ER Sepsis Triage,ER Registration,1049,1049
+responded_existence,CRP,ER Sepsis Triage,1007,1006
 responded_existence,ER Registration,CRP,1050,1007
 responded_existence,CRP,ER Registration,1007,1007
-responded_existence,LacticAcid,Leucocytes,860,860
-responded_existence,ER Sepsis Triage,Leucocytes,1049,1011
-response,ER Triage,Leucocytes,1050,989
-response,ER Registration,CRP,1050,1004
-response,ER Sepsis Triage,Leucocytes,1049,945
-response,ER Registration,ER Triage,1050,1044
-response,ER Triage,CRP,1050,983
-response,ER Registration,ER Sepsis Triage,1050,1042
-response,ER Triage,ER Sepsis Triage,1050,1029
-response,ER Registration,Leucocytes,1050,1008
-response,ER Sepsis Triage,CRP,1049,943
-existence,CRP,,1050,1007
-existence,ER Triage,,1050,1050
-existence,ER Sepsis Triage,,1050,1049
-existence,ER Registration,,1050,1050
-existence,Leucocytes,,1050,1012
-exactly_one,ER Sepsis Triage,,1049,1049
-exactly_one,ER Registration,,1050,1050
-exactly_one,ER Triage,,1050,1047
+responded_existence,ER Registration,Leucocytes,1050,1012
+responded_existence,Leucocytes,ER Sepsis Triage,1012,1011
+responded_existence,LacticAcid,ER Sepsis Triage,860,859
+responded_existence,ER Triage,ER Sepsis Triage,1050,1049
+responded_existence,LacticAcid,ER Registration,860,860
+responded_existence,ER Triage,ER Registration,1050,1050
 precedence,ER Triage,Leucocytes,1012,943
-precedence,ER Registration,Leucocytes,1012,984
-precedence,ER Triage,CRP,1007,942
-precedence,ER Registration,CRP,1007,983
 precedence,ER Triage,LacticAcid,860,822
+precedence,ER Registration,ER Sepsis Triage,1049,1042
+precedence,ER Registration,ER Triage,1050,1044
+precedence,ER Registration,CRP,1007,983
+precedence,ER Registration,Leucocytes,1012,984
 precedence,ER Triage,ER Sepsis Triage,1049,1032
 precedence,ER Registration,LacticAcid,860,857
-precedence,ER Registration,ER Triage,1050,1044
-precedence,ER Registration,ER Sepsis Triage,1049,1042
+precedence,ER Triage,CRP,1007,942
+response,ER Sepsis Triage,CRP,1049,943
+response,ER Triage,CRP,1050,983
+response,ER Sepsis Triage,Leucocytes,1049,945
+response,ER Triage,Leucocytes,1050,989
+response,ER Registration,ER Sepsis Triage,1050,1042
+response,ER Registration,ER Triage,1050,1044
+response,ER Registration,CRP,1050,1004
+response,ER Registration,Leucocytes,1050,1008
+response,ER Triage,ER Sepsis Triage,1050,1029
+chainprecedence,ER Triage,ER Sepsis Triage,1049,902
+chainprecedence,ER Registration,ER Triage,1050,968
+existence,ER Sepsis Triage,,1050,1049
+existence,CRP,,1050,1007
+existence,Leucocytes,,1050,1012
+existence,ER Triage,,1050,1050
+existence,ER Registration,,1050,1050
+altresponse,ER Triage,ER Sepsis Triage,1050,1029
+altresponse,ER Registration,ER Sepsis Triage,1050,1042
+altresponse,ER Registration,ER Triage,1050,1041
+exactly_one,ER Triage,,1050,1047
+exactly_one,ER Sepsis Triage,,1049,1049
+exactly_one,ER Registration,,1050,1050
 altprecedence,ER Registration,ER Triage,1050,1041
 altprecedence,ER Registration,ER Sepsis Triage,1049,1042
 altprecedence,ER Triage,ER Sepsis Triage,1049,1029
-init,ER Registration,,1050,995
-altresponse,ER Registration,ER Triage,1050,1041
-altresponse,ER Registration,ER Sepsis Triage,1050,1042
-altresponse,ER Triage,ER Sepsis Triage,1050,1029
 chainresponse,ER Triage,ER Sepsis Triage,1050,902
 chainresponse,ER Registration,ER Triage,1050,968
-chainprecedence,ER Registration,ER Triage,1050,968
-chainprecedence,ER Triage,ER Sepsis Triage,1049,902
+init,ER Registration,,1050,995
 absence,Release D,,1050,1026
-absence,Admission IC,,1050,940
-absence,Release E,,1050,1044
 absence,Release B,,1050,994
+absence,Release E,,1050,1044
 absence,Release C,,1050,1025
+absence,Admission IC,,1050,940
 succession,ER Registration,ER Sepsis Triage,1050,1042
 succession,ER Registration,Leucocytes,1050,984
-succession,ER Registration,ER Triage,1050,1044
 succession,ER Registration,CRP,1050,983
+succession,ER Registration,ER Triage,1050,1044
 succession,ER Triage,ER Sepsis Triage,1050,1029
 succession,ER Triage,Leucocytes,1050,941
 succession,ER Triage,CRP,1050,940
@@ -80,27 +80,27 @@ altsuccession,ER Registration,ER Triage,1050,1041
 altsuccession,ER Triage,ER Sepsis Triage,1050,1029
 chainsuccession,ER Registration,ER Triage,1050,968
 chainsuccession,ER Triage,ER Sepsis Triage,1050,902
-coexistence,IV Antibiotics,LacticAcid,894,789
-coexistence,ER Registration,ER Sepsis Triage,1050,1049
-coexistence,ER Registration,Leucocytes,1050,1012
-coexistence,ER Registration,ER Triage,1050,1050
-coexistence,ER Registration,CRP,1050,1007
-coexistence,ER Sepsis Triage,ER Registration,1050,1049
 coexistence,ER Sepsis Triage,Leucocytes,1050,1011
-coexistence,ER Sepsis Triage,ER Triage,1050,1049
 coexistence,ER Sepsis Triage,CRP,1050,1006
-coexistence,Leucocytes,ER Registration,1050,1012
+coexistence,ER Sepsis Triage,ER Registration,1050,1049
+coexistence,ER Sepsis Triage,ER Triage,1050,1049
 coexistence,Leucocytes,ER Sepsis Triage,1050,1011
-coexistence,Leucocytes,ER Triage,1050,1012
 coexistence,Leucocytes,CRP,1013,1006
-coexistence,LacticAcid,IV Antibiotics,894,789
+coexistence,Leucocytes,ER Registration,1050,1012
+coexistence,Leucocytes,ER Triage,1050,1012
 coexistence,LacticAcid,CRP,1007,860
-coexistence,ER Triage,ER Registration,1050,1050
-coexistence,ER Triage,ER Sepsis Triage,1050,1049
-coexistence,ER Triage,Leucocytes,1050,1012
-coexistence,ER Triage,CRP,1050,1007
-coexistence,CRP,ER Registration,1050,1007
+coexistence,LacticAcid,IV Antibiotics,894,789
 coexistence,CRP,ER Sepsis Triage,1050,1006
 coexistence,CRP,Leucocytes,1013,1006
 coexistence,CRP,LacticAcid,1007,860
+coexistence,CRP,ER Registration,1050,1007
 coexistence,CRP,ER Triage,1050,1007
+coexistence,ER Registration,ER Sepsis Triage,1050,1049
+coexistence,ER Registration,Leucocytes,1050,1012
+coexistence,ER Registration,CRP,1050,1007
+coexistence,ER Registration,ER Triage,1050,1050
+coexistence,IV Antibiotics,LacticAcid,894,789
+coexistence,ER Triage,ER Sepsis Triage,1050,1049
+coexistence,ER Triage,Leucocytes,1050,1012
+coexistence,ER Triage,CRP,1050,1007
+coexistence,ER Triage,ER Registration,1050,1050

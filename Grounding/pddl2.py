@@ -31,7 +31,7 @@ def group_transitions_by_label(transitions):
 #STEP 3: Per ogni gruppo di transizioni riguardanti una specifica attività è necessario trovare tutte le loro combinazioni semplici 
 # senza ripetizioni di lunghezza k con k tra 1 e M, dove M è il numero di automi distinti che contribuiscono ad almeno 1 transizione del gruppo.
 #In questo modo verranno rimosse combinazioni contenenti transizioni verso lo stesso automa (solo 1 transizione alla volta può effettuarsi in un automa)
-def generate_combinations_gen(transitions):
+"""def generate_combinations_gen(transitions):
 
     #calcolo M = automi distinti
     distinct_automata = set(t.automaton for t in transitions)
@@ -53,6 +53,44 @@ def generate_combinations_gen(transitions):
                 extended_combo = list(combo_ids)
 
                 #Per ogni combinazione si devono inserire anche le negazioni delle transizioni non appartententi a quella combinazione 
+                # e relative ad automi differenti da quelli delle transizioni nella combinazione 
+                for t in label_transitions:
+                    if t.id not in combo_ids and t.automaton not in automata_in_combo:
+                        extended_combo.append(f"not {t.id}")
+
+                yield label, tuple(sorted(extended_combo))"""
+
+def generate_combinations_gen(transitions, sink_map):
+
+    #calcolo M = automi distinti
+    distinct_automata = set(t.automaton for t in transitions)
+    m = len(distinct_automata)
+    labels = set(t.label for t in transitions)
+
+    for label in labels:
+        label_transitions = [t for t in transitions if t.label == label]
+
+        for k in range(1, min(m, len(label_transitions)) + 1):
+            for combo in combinations(label_transitions, k):
+                
+                #si ignorano combinazioni che contengono transizioni appartenenti allo stesso automa
+                automata_in_combo = {t.automaton for t in combo}
+                if len(automata_in_combo) != len(combo):
+                    continue
+
+                # 🔴 NUOVO: scarta combinazioni con destinazione verso sink
+                discard = False
+                for t in combo:
+                    if t.dest in sink_map[t.automaton]:
+                        discard = True
+                        break
+                if discard:
+                    continue
+
+                combo_ids = {t.id for t in combo}
+                extended_combo = list(combo_ids)
+
+                #Per ogni combinazione si devono inserire anche le negazioni delle transizioni non appartenenti a quella combinazione 
                 # e relative ad automi differenti da quelli delle transizioni nella combinazione 
                 for t in label_transitions:
                     if t.id not in combo_ids and t.automaton not in automata_in_combo:

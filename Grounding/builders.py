@@ -31,6 +31,7 @@ def build_automaton_from_dict(definition):
 
     transitions = []
     counter = 0
+    
 
     for src, label, dest in definition["transitions"]:
         tid = f"TR_{automaton.name}_{counter}"

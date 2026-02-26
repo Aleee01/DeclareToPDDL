@@ -1,11 +1,29 @@
 import pandas as pd
 import networkx as nx
+import re
 
 def is_negative(template: str) -> bool:
     return template.lower().startswith("not ")
 
 def normalize_template(template: str) -> str:
     return template.lower().replace("not ", "")
+
+
+def normalize_activity_name(name) -> str:
+    """
+    Normalizza il nome attività per essere PDDL-safe:
+    - se la cella è vuota o NaN, la lascia come stringa vuota
+    - altrimenti:
+        - lowercase
+        - spazi → underscore
+        - rimuove caratteri non alfanumerici eccetto _
+    """
+    if pd.isna(name) or str(name).strip() == "":
+        return ""  # mantiene lo spazio vuoto
+    name = str(name).lower()
+    name = name.replace(" ", "_")
+    name = re.sub(r"[^a-z0-9_]", "", name)
+    return name
 
 PRIORITY = {
     "chainprecedence": 3,
@@ -108,6 +126,10 @@ def remove_conflicting_constraints(df):
 
 def simplify_declare_constraints(csv_path, output_path=None):
     df = pd.read_csv(csv_path)
+
+    # 🔹 Normalizzazione nomi attività (PDDL-safe)
+    df["activity_a"] = df["activity_a"].apply(normalize_activity_name)
+    df["activity_b"] = df["activity_b"].apply(normalize_activity_name)
 
     df["family"] = df["template"].apply(get_family)
     df["priority"] = df["template"].str.lower().map(PRIORITY)

@@ -45,7 +45,8 @@ print("\nGroup of transitions")
     #print(f"{label}: {', '.join(ids)}")
 
 #STEP 4: Genero le combinaizioni
-comb_gen = generate_combinations_gen(all_transitions)
+sink_map = {a.name: find_sink_states(a, all_transitions) for a in all_automata}
+comb_gen = generate_combinations_gen(all_transitions, sink_map)
 
 """for label, combs in combinations_per_label.items():
     print(f"\nCombinations for {label}:")
@@ -53,8 +54,8 @@ comb_gen = generate_combinations_gen(all_transitions)
         print(c)"""
 
 #STEP 5: Cerco i sink states e elimino le combinazioni verso almeno uno di essi
-sink_map = {a.name: find_sink_states(a, all_transitions) for a in all_automata}
-filtered_comb_gen = delete_sink_combinations_gen(comb_gen, transition_map, sink_map)
+
+#filtered_comb_gen = delete_sink_combinations_gen(comb_gen, transition_map, sink_map)
 
 print("\nSink states:")
 #print(sink_map)
@@ -65,7 +66,7 @@ print("\nSink states:")
         print(c)"""
 
 #STEP 6: Genero le SYNC in PDDL
-actions_gen = generate_pddl_actions_gen(transition_map, filtered_comb_gen)
+actions_gen = generate_pddl_actions_gen(transition_map, comb_gen)
 
 #STEP 7: Genero le finish per il problema dei finali multipli
 if any(len(a.final_states) > 1 for a in all_automata):
