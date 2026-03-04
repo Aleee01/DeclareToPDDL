@@ -1,30 +1,36 @@
 #Versione yield
 
-from parser import parse_declare_csv, extract_alphabet, filter_absence_constraints
+from parser import parse_declare_csv, extract_alphabet, filter_absence_constraints, parse_declare_json
 from builders import declare_factory, build_automaton_from_dict
-from pddl2 import (
+from pddl_generator2 import (
     group_transitions_by_label,
     build_transition_map,
     generate_combinations_gen,
-    delete_sink_combinations_gen,
     generate_pddl_actions_gen,
     generate_finish_actions_gen,
     generate_pddl_domain_file,
     generate_pddl_problem,
     find_sink_states
 )
+import time
+
+start_time = time.perf_counter()
 
 # STEP 1: Leggo i vincoli Declare dal CSV
-csv_path = "./experiments/constraints9.csv" 
-constraints = parse_declare_csv(csv_path)
+path = "./experiments/constraints9.csv" 
+#path = "./uni.json" 
+constraints = parse_declare_csv(path)
+#constraints = parse_declare_json(path)
 constraints = filter_absence_constraints(constraints)
-#alphabet = extract_alphabet(constraints)
+alphabet = extract_alphabet(constraints)
 
-#alphabet = ["a", "b", "c", "d", "e"]
-alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l"]
+#alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l"]
+
+alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v"]
 
 # STEP 2: Genero Automi e Transizioni
 all_automata = []
+
 all_transitions = []
 
 for idx, c in enumerate(constraints):
@@ -33,17 +39,17 @@ for idx, c in enumerate(constraints):
     all_automata.append(automaton)
     all_transitions.extend(transitions)
 
-print("\nAutomata founded:\n")
+#print("\nAutomata founded:\n")
 #print(all_automata)
 
-print("\nTransitions founded:\n")
-print(all_transitions)
+#print("\nTransitions founded:\n")
+#print(all_transitions)
 
 # STEP 3: Raggruppo le transizioni per attività
 grouped = group_transitions_by_label(all_transitions)
 transition_map = build_transition_map(all_transitions)
 
-print("\nGroup of transitions")
+#print("\nGroup of transitions")
 #for label, ids in grouped.items():
     #print(f"{label}: {', '.join(ids)}")
 
@@ -60,7 +66,7 @@ comb_gen = generate_combinations_gen(all_transitions, sink_map)
 
 #filtered_comb_gen = delete_sink_combinations_gen(comb_gen, transition_map, sink_map)
 
-print("\nSink states:")
+#print("\nSink states:")
 #print(sink_map)
 
 """for label, combs in nosink_combinations.items():
@@ -79,5 +85,10 @@ if any(len(a.final_states) > 1 for a in all_automata):
     actions_gen = chain(actions_gen, finish_gen)
     
 #STEP 8: Genero dominio e problema PDDL
-generate_pddl_domain_file(actions_gen, path="domain9.pddl")
-generate_pddl_problem(all_automata, path="problem9.pddl")
+generate_pddl_domain_file(actions_gen, path="./experiments/domain_9_20.pddl")
+generate_pddl_problem(all_automata, path="./experiments/problem_9_20.pddl")
+
+end_time = time.perf_counter()
+elapsed_time = end_time - start_time
+
+print(f"\nTempo di esecuzione totale: {elapsed_time:.4f} secondi")

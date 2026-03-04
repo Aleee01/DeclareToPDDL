@@ -1,8 +1,8 @@
 template,activity_a,activity_b
 existence,a,
 response,b,c
-notcoexistence,d,e
-choice,b,e
-chainprecedence,a,b
+notcoexistence,f,g
+chainprecedence,i,e
+choice,l,h
 pattern_gap,,
 prefix,,

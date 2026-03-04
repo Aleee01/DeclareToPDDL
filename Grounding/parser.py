@@ -1,4 +1,6 @@
 import csv
+import json
+import re
 
 #Legge il csv e restituisce la lista di vincoli Declare
 def parse_declare_csv(path):
@@ -20,6 +22,36 @@ def parse_declare_csv(path):
             })
 
     return constraints
+
+def parse_declare_json(path):
+    constraints = []
+
+    with open(path) as f:
+        data = json.load(f)
+
+    for c in data.get("constraints", []):
+        constraint_type = c["template"].strip().lower()
+
+        parameters = c.get("parameters", [])
+
+        A = parameters[0][0].strip() if len(parameters) > 0 and len(parameters[0]) > 0 else None
+        B = parameters[1][0].strip() if len(parameters) > 1 and len(parameters[1]) > 0 else None
+
+        constraints.append({
+            "type": constraint_type,
+            "act1": normalize_name(A),
+            "act2": normalize_name(B)
+        })
+
+    return constraints
+
+def normalize_name(name):
+    if name is None:
+        return None
+    name = name.strip().lower()
+    name = name.replace(" ", "_")          # sostituisce spazi con _
+    name = re.sub(r'[^a-z0-9_]', '', name) # rimuove caratteri non validi
+    return name
 
 #Estrae l'alfabeto di simboli
 def extract_alphabet(constraints):

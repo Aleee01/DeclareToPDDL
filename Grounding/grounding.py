@@ -7,6 +7,7 @@ import pydot
 import os
 import re
 
+#Versione iniziale per DOT
 
 @dataclass
 class Transition:

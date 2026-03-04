@@ -53,7 +53,6 @@ def build_automaton_from_dict(definition):
     return automaton, transitions
 
 
-
 #Funzioni di costruzione degli automi a partire dai vincoli Declare
 def automaton_existence(a, idx, all_acts):
     s0 = f"ex_{a}_s0_{idx}"
@@ -461,7 +460,7 @@ def automaton_notcoexistence(a, b, idx, all_acts):
 def automaton_exactlyone(a, idx, all_acts):
     s0 = f"ex1_{a}_s0_{idx}"
     s1 = f"ex1_{a}_s1_{idx}"
-    s2 = f"ex1_{a}_sink_{idx}"
+    s2 = f"ex1_{a}_s2_{idx}"
     transitions = [(s0, a, s1), (s1, a, s2)]
     for act in all_acts:
         transitions.append((s2, act, s2))
@@ -476,16 +475,57 @@ def automaton_exactlyone(a, idx, all_acts):
         "transitions": transitions,
     }
 
+
+def automaton_atmost1(a, idx, all_acts):
+    s0 = f"atm1_{a}_s0_{idx}"
+    s1 = f"atm1_{a}_s1_{idx}"
+    s2 = f"atm1_{a}_s2_{idx}"
+    transitions = [(s0, a, s1), (s1, a, s2)]
+    for act in all_acts:
+        transitions.append((s2, act, s2))
+        if act != a:
+            transitions.append((s0, act, s0))
+            transitions.append((s1, act, s1))
+    return {
+        "name": f"atmost1_{a}_{idx}",
+        "states": [s0, s1, s2],
+        "init": s0,
+        "final": [s0, s1],
+        "transitions": transitions,
+    }
+
+def automaton_atmost2(a, idx, all_acts):
+    s0 = f"atm2_{a}_s0_{idx}"
+    s1 = f"atm2_{a}_s1_{idx}"
+    s2 = f"atm2_{a}_s2_{idx}"
+    s3 = f"atm2_{a}_s3_{idx}"
+    transitions = [(s0, a, s1), (s1, a, s2), (s2, a, s3)]
+    for act in all_acts:
+        transitions.append((s3, act, s3))
+        if act != a:
+            transitions.append((s0, act, s0))
+            transitions.append((s1, act, s1))
+            transitions.append((s2, act, s2))
+    return {
+        "name": f"atmost2_{a}_{idx}",
+        "states": [s0, s1, s2],
+        "init": s0,
+        "final": [s0, s1, s2],
+        "transitions": transitions,
+    }
+
+
 def automaton_prefix(idx, all_acts):
-    activities = []
-    print("Write the prefix (empty row to finish):")
+    #activities = []
+    #print("Write the prefix (empty row to finish):")
     
-    while True:
+    activities = ["i", "a"]
+    """while True:
         act = input()
         if act == "":
             break
         activities.append(act)
-        all_acts.append(act)
+        all_acts.append(act)"""
 
     n = len(activities)
 
@@ -594,15 +634,16 @@ def automaton_pattern(idx, all_acts):
 }
 
 def automaton_pattern_gap(idx, all_acts):
-    activities = []
-    print("Write the pattern (with gaps) (empty row to finish):")
-    
-    while True:
+    #activities = []
+    #print("Write the pattern (with gaps) (empty row to finish):")
+
+    activities = ["a", "e", "h"]
+    """while True:
         act = input()
         if act == "":
             break
         activities.append(act)
-        all_acts.append(act)
+        all_acts.append(act)"""
 
     n = len(activities)
 
@@ -631,8 +672,9 @@ def automaton_pattern_gap(idx, all_acts):
 }
 
 def automaton_minlen(idx, all_acts):
-    print("Write the minimum length (empty row to finish):")
-    len = int(input())
+    #print("Write the minimum length (empty row to finish):")
+    #len = int(input())
+    len = 8
 
     states = [f"min_s{i}_{idx}" for i in range(len + 1)]
 
@@ -666,6 +708,8 @@ def declare_factory(constraint, idx, alphabet):
         "init": lambda: automaton_init(A, idx, alphabet),
         "end": lambda: automaton_end(A, idx, alphabet),
         "exactly_one": lambda: automaton_exactlyone(A, idx, alphabet),
+        "atmost1": lambda: automaton_atmost1(A, idx, alphabet),
+        "atmost2": lambda: automaton_atmost2(A, idx, alphabet),
         "absence": lambda: automaton_absence(A, idx, alphabet),
         "response": lambda: automaton_response(A, B, idx, alphabet),
         "precedence": lambda: automaton_precedence(A, B, idx, alphabet),
@@ -673,9 +717,9 @@ def declare_factory(constraint, idx, alphabet):
         "notresponse": lambda: automaton_notsuccession(A, B, idx, alphabet),
         "notprecedence": lambda: automaton_notsuccession(A, B, idx, alphabet),
         "notsuccession": lambda: automaton_notsuccession(A, B, idx, alphabet),
-        "altresponse": lambda: automaton_altresponse(A, B, idx, alphabet),
-        "altprecedence": lambda: automaton_altprecedence(A, B, idx, alphabet),
-        "altsuccession": lambda: automaton_altsuccession(A, B, idx, alphabet),
+        "alternateresponse": lambda: automaton_altresponse(A, B, idx, alphabet),
+        "alternateprecedence": lambda: automaton_altprecedence(A, B, idx, alphabet),
+        "alternatesuccession": lambda: automaton_altsuccession(A, B, idx, alphabet),
         "chainresponse": lambda: automaton_chain_response(A, B, idx, alphabet),
         "chainprecedence": lambda: automaton_chain_precedence(A, B, idx, alphabet),
         "chainsuccession": lambda: automaton_chain_succession(A, B, idx, alphabet),
@@ -684,7 +728,7 @@ def declare_factory(constraint, idx, alphabet):
         "notchainsuccession": lambda: automaton_notchainsucc(A, B, idx, alphabet),
         "choice": lambda: automaton_choice(A, B, idx, alphabet),
         "exclusivechoice": lambda: automaton_exclusivechoice(A, B, idx, alphabet),
-        "responded_existence": lambda: automaton_respondedexistence(A, B, idx, alphabet),
+        "respondedexistence": lambda: automaton_respondedexistence(A, B, idx, alphabet),
         "coexistence": lambda: automaton_coexistence(A, B, idx, alphabet),
         "notcoexistence": lambda: automaton_notcoexistence(A, B, idx, alphabet),
         "notresponded_existence": lambda: automaton_notcoexistence(A, B, idx, alphabet),

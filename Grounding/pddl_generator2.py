@@ -78,7 +78,6 @@ def generate_combinations_gen(transitions, sink_map):
                 if len(automata_in_combo) != len(combo):
                     continue
 
-                # 🔴 NUOVO: scarta combinazioni con destinazione verso sink
                 discard = False
                 for t in combo:
                     if t.dest in sink_map[t.automaton]:

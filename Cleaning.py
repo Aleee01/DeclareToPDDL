@@ -1,6 +1,7 @@
 import pandas as pd
 import networkx as nx
 import re
+import json
 
 def is_negative(template: str) -> bool:
     return template.lower().startswith("not ")
@@ -124,8 +125,34 @@ def remove_conflicting_constraints(df):
     return df.drop(index=to_drop)
 
 
-def simplify_declare_constraints(csv_path, output_path=None):
-    df = pd.read_csv(csv_path)
+def simplify_declare_constraints(json_path, output_path=None):
+    #df = pd.read_csv(csv_path)
+
+    
+ # 🔹 Caricamento JSON
+    with open(json_path) as f:
+        data = json.load(f)
+
+    constraints = []
+
+    # 🔹 Trasformazione JSON → DataFrame
+    for c in data.get("constraints", []):
+        template = c["template"]
+        params = c.get("parameters", [])
+
+        activity_a = params[0][0] if len(params) > 0 and len(params[0]) > 0 else None
+        activity_b = params[1][0] if len(params) > 1 and len(params[1]) > 0 else None
+
+        constraints.append({
+            "template": template,
+            "activity_a": activity_a,
+            "activity_b": activity_b,
+            "support": c.get("support"),
+            "confidence": c.get("confidence")
+        })
+
+    df = pd.DataFrame(constraints)
+    print(df)
 
     # 🔹 Normalizzazione nomi attività (PDDL-safe)
     df["activity_a"] = df["activity_a"].apply(normalize_activity_name)
@@ -193,11 +220,21 @@ def simplify_declare_constraints(csv_path, output_path=None):
     result = result[["activity_a", "activity_b", "template", "support", "confidence"]]
 
 
+    """if output_path:
+        result.to_csv(output_path, index=False)"""
     if output_path:
-        result.to_csv(output_path, index=False)
+        output_data = {
+            "name": data.get("name"),
+            "tasks": data.get("tasks"),
+            "constraints": result.to_dict(orient="records")
+        }
+        with open(output_path, "w") as f:
+            json.dump(output_data, f, indent=4)
+
+    return result
 
     return result
 
 if __name__ == "__main__":
-    simplified_df = simplify_declare_constraints("constraints_Sep80.csv", "simplified_Sep80.csv")
-    print(simplified_df)
+    #simplified_df = simplify_declare_constraints("constraints_Sep80.csv", "simplified_Sep80.csv")
+    simplified_df = simplify_declare_constraints("./Grounding/uni-declarative-specification.json", "./Grounding/simplified_uni.json")
