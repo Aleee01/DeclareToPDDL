@@ -23,34 +23,82 @@ def parse_declare_csv(path):
 
     return constraints
 
+def parse_declare_decl(path):
+    pattern = re.compile(r'(?P<template>[A-Za-z ]+)\[(?P<acts>[^\]]+)\]')
+
+    constraints = []
+
+    with open(path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+
+            if "[" not in line or "]" not in line:
+                continue
+
+            match = pattern.search(line)
+            if not match:
+                continue
+
+            template = match.group("template").strip().lower().replace(" ", "")
+
+            acts = [
+                normalize_name(a.strip())
+                for a in match.group("acts").split(",")
+            ]
+
+            if len(acts) > 2:
+                constraints.append({
+                    "type": template,
+                    "activities": acts
+                })
+            else:
+                constraints.append({
+                    "type": template,
+                    "act1": acts[0] if len(acts) > 0 else None,
+                    "act2": acts[1] if len(acts) > 1 else None
+                })
+
+    return constraints
+
 def parse_declare_json(path):
     constraints = []
+
+    preferences_templates = {"pattern_gap", "pattern", "prefix", "suffix"}  
 
     with open(path) as f:
         data = json.load(f)
 
     for c in data.get("constraints", []):
         constraint_type = c["template"].strip().lower()
-
         parameters = c.get("parameters", [])
 
-        A = parameters[0][0].strip() if len(parameters) > 0 and len(parameters[0]) > 0 else None
-        B = parameters[1][0].strip() if len(parameters) > 1 and len(parameters[1]) > 0 else None
+        # flatten di tutti i parametri
+        acts = [normalize_name(p.strip()) for group in parameters for p in group]
 
-        constraints.append({
-            "type": constraint_type,
-            "act1": normalize_name(A),
-            "act2": normalize_name(B)
-        })
+        if constraint_type in preferences_templates:
+            constraints.append({
+                "type": constraint_type,
+                "activities": acts
+            })
+        else:
+            act1 = acts[0] if len(acts) > 0 else None
+            act2 = acts[1] if len(acts) > 1 else None
 
+            constraints.append({
+                "type": constraint_type,
+                "act1": act1,
+                "act2": act2
+            })
+
+    print(len(constraints))
     return constraints
 
 def normalize_name(name):
     if name is None:
         return None
     name = name.strip().lower()
-    name = name.replace(" ", "_")          # sostituisce spazi con _
-    name = re.sub(r'[^a-z0-9_]', '', name) # rimuove caratteri non validi
+    name = name.replace(" ", "_")          
+    name = re.sub(r'[^a-z0-9_]', '', name)
     return name
 
 #Estrae l'alfabeto di simboli
@@ -58,10 +106,13 @@ def extract_alphabet(constraints):
     alphabet = set()
 
     for c in constraints:
-        if c["act1"]:
-            alphabet.add(c["act1"])
-        if c["act2"]:
-            alphabet.add(c["act2"])
+        if "activities" in c:
+            alphabet.update(c["activities"])
+        else:
+            if c.get("act1"):
+                alphabet.add(c["act1"])
+            if c.get("act2"):
+                alphabet.add(c["act2"])
 
     return list(alphabet)
 

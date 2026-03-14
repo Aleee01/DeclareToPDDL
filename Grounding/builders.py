@@ -95,9 +95,9 @@ def automaton_init(a, idx, all_acts):
     }
 
 def automaton_end(a, idx, all_acts):
-    s0 = f"init_{a}_s0_{idx}"
-    s1 = f"init_{a}_s1_{idx}"
-    s2 = f"init_{a}_s2_{idx}"
+    s0 = f"end_{a}_s0_{idx}"
+    s1 = f"end_{a}_s1_{idx}"
+    s2 = f"end_{a}_s2_{idx}"
     transitions = [(s0, a, s1), (s2, a, s1)]
     for act in all_acts:
         if act != a:
@@ -480,6 +480,7 @@ def automaton_atmost1(a, idx, all_acts):
     s0 = f"atm1_{a}_s0_{idx}"
     s1 = f"atm1_{a}_s1_{idx}"
     s2 = f"atm1_{a}_s2_{idx}"
+    abs = f"atm1_{a}_sabs_{idx}"
     transitions = [(s0, a, s1), (s1, a, s2)]
     for act in all_acts:
         transitions.append((s2, act, s2))
@@ -488,10 +489,11 @@ def automaton_atmost1(a, idx, all_acts):
             transitions.append((s1, act, s1))
     return {
         "name": f"atmost1_{a}_{idx}",
-        "states": [s0, s1, s2],
+        "states": [s0, s1, s2, abs],
         "init": s0,
         "final": [s0, s1],
         "transitions": transitions,
+        "abstract": abs,
     }
 
 def automaton_atmost2(a, idx, all_acts):
@@ -499,6 +501,7 @@ def automaton_atmost2(a, idx, all_acts):
     s1 = f"atm2_{a}_s1_{idx}"
     s2 = f"atm2_{a}_s2_{idx}"
     s3 = f"atm2_{a}_s3_{idx}"
+    abs = f"atm2_{a}_sabs_{idx}"
     transitions = [(s0, a, s1), (s1, a, s2), (s2, a, s3)]
     for act in all_acts:
         transitions.append((s3, act, s3))
@@ -508,18 +511,42 @@ def automaton_atmost2(a, idx, all_acts):
             transitions.append((s2, act, s2))
     return {
         "name": f"atmost2_{a}_{idx}",
-        "states": [s0, s1, s2],
+        "states": [s0, s1, s2, s3, abs],
         "init": s0,
         "final": [s0, s1, s2],
         "transitions": transitions,
+        "abstract": abs,
     }
 
+def automaton_atmost3(a, idx, all_acts):
+    s0 = f"atm3_{a}_s0_{idx}"
+    s1 = f"atm3_{a}_s1_{idx}"
+    s2 = f"atm3_{a}_s2_{idx}"
+    s3 = f"atm3_{a}_s3_{idx}"
+    s4 = f"atm3_{a}_s4_{idx}"
+    abs = f"atm3_{a}_sabs_{idx}"
+    transitions = [(s0, a, s1), (s1, a, s2), (s2, a, s3), (s3, a, s4)]
+    for act in all_acts:
+        transitions.append((s4, act, s4))
+        if act != a:
+            transitions.append((s0, act, s0))
+            transitions.append((s1, act, s1))
+            transitions.append((s2, act, s2))
+            transitions.append((s3, act, s3))
+    return {
+        "name": f"atmost2_{a}_{idx}",
+        "states": [s0, s1, s2, s3, s4, abs],
+        "init": s0,
+        "final": [s0, s1, s2, s3],
+        "transitions": transitions,
+        "abstract": abs,
+    }
 
-def automaton_prefix(idx, all_acts):
+def automaton_prefix(idx, activities, all_acts):
     #activities = []
     #print("Write the prefix (empty row to finish):")
     
-    activities = ["i", "a"]
+    #activities = ["a"]
     """while True:
         act = input()
         if act == "":
@@ -554,16 +581,18 @@ def automaton_prefix(idx, all_acts):
         "transitions": transitions,
 }
 
-def automaton_suffix(idx, all_acts):
-    activities = []
-    print("Write the suffix (empty row to finish):")
+def automaton_suffix(idx, activities, all_acts):
+    #activities = []
+    #print("Write the suffix (empty row to finish):")
+
+    #activities = ["i","c"]
     
-    while True:
+    """while True:
         act = input()
         if act == "":
             break
         activities.append(act)
-        all_acts.append(act)
+        all_acts.append(act)"""
 
     n = len(activities)
 
@@ -594,8 +623,8 @@ def automaton_suffix(idx, all_acts):
         "transitions": transitions,
 }
 
-def automaton_pattern(idx, all_acts):
-    activities = []
+def automaton_pattern(idx, activities, all_acts):
+    """activities = []
     print("Write the pattern (empty row to finish):")
     
     while True:
@@ -603,7 +632,9 @@ def automaton_pattern(idx, all_acts):
         if act == "":
             break
         activities.append(act)
-        all_acts.append(act)
+        all_acts.append(act)"""
+    
+    #activities = ["g", "i"]
 
     n = len(activities)
 
@@ -633,11 +664,11 @@ def automaton_pattern(idx, all_acts):
         "transitions": transitions,
 }
 
-def automaton_pattern_gap(idx, all_acts):
+def automaton_pattern_gap(idx, activities, all_acts):
     #activities = []
     #print("Write the pattern (with gaps) (empty row to finish):")
 
-    activities = ["a", "e", "h"]
+    #activities = ["e", "h"]
     """while True:
         act = input()
         if act == "":
@@ -671,12 +702,13 @@ def automaton_pattern_gap(idx, all_acts):
         "transitions": transitions,
 }
 
-def automaton_minlen(idx, all_acts):
+def automaton_minlen(idx, A, all_acts):
     #print("Write the minimum length (empty row to finish):")
     #len = int(input())
-    len = 8
+    #len = 8
+    len=int(A)
 
-    states = [f"min_s{i}_{idx}" for i in range(len + 1)]
+    states = [f"min_s{i}_{idx}" for i in range(len+1)]
 
     init = states[0]
     final = states[len]
@@ -700,6 +732,8 @@ def automaton_minlen(idx, all_acts):
 
 def declare_factory(constraint, idx, alphabet):
     ctype = constraint["type"]
+    if "activities" in constraint:
+        acts = constraint.get("activities", [])
     A = constraint.get("act1")
     B = constraint.get("act2")
 
@@ -710,6 +744,7 @@ def declare_factory(constraint, idx, alphabet):
         "exactly_one": lambda: automaton_exactlyone(A, idx, alphabet),
         "atmost1": lambda: automaton_atmost1(A, idx, alphabet),
         "atmost2": lambda: automaton_atmost2(A, idx, alphabet),
+        "atmost3": lambda: automaton_atmost3(A, idx, alphabet),
         "absence": lambda: automaton_absence(A, idx, alphabet),
         "response": lambda: automaton_response(A, B, idx, alphabet),
         "precedence": lambda: automaton_precedence(A, B, idx, alphabet),
@@ -732,11 +767,11 @@ def declare_factory(constraint, idx, alphabet):
         "coexistence": lambda: automaton_coexistence(A, B, idx, alphabet),
         "notcoexistence": lambda: automaton_notcoexistence(A, B, idx, alphabet),
         "notresponded_existence": lambda: automaton_notcoexistence(A, B, idx, alphabet),
-        "prefix": lambda: automaton_prefix(idx, alphabet),
-        "suffix": lambda: automaton_suffix(idx, alphabet),
-        "pattern": lambda: automaton_pattern(idx, alphabet),
-        "pattern_gap": lambda: automaton_pattern_gap(idx, alphabet),
-        "minlen": lambda: automaton_minlen(idx, alphabet),
+        "prefix": lambda: automaton_prefix(idx, acts, alphabet),
+        "suffix": lambda: automaton_suffix(idx, acts, alphabet),
+        "pattern": lambda: automaton_pattern(idx, acts, alphabet),
+        "patterngap": lambda: automaton_pattern_gap(idx, acts, alphabet),
+        "minlen": lambda: automaton_minlen(idx, A, alphabet),
     }
 
     if ctype not in mapping:

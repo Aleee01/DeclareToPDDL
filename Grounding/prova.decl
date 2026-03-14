@@ -1,0 +1,5 @@
+Exactly1[ER Registration] | |
+Alternate Succession[ER Registration, ER Sepsis Triage] | | |
+Chain Succession[ER Registration, ER Triage] | | |
+Absence[Admission IC] | |
+Pattern gap[a, b, c]
