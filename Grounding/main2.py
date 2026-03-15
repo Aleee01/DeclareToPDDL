@@ -19,16 +19,16 @@ start_time = time.perf_counter()
 
 # STEP 1: Leggo i vincoli Declare dal CSV
 #path = "./experiments/constraints7.csv" 
-path = "./experiments/constraints9.json" 
+path = "./experiments/input_models/constraints9.json" 
 #constraints = parse_declare_decl(path)
 #constraints = parse_declare_csv(path)
 constraints = parse_declare_json(path)
 constraints = filter_absence_constraints(constraints)
 #alphabet = extract_alphabet(constraints)
 
-alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l"]
+#alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l"]
 
-#alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v"]
+alphabet = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v"]
 
 # STEP 2: Genero Automi e Transizioni
 all_automata = []
@@ -42,10 +42,10 @@ for idx, c in enumerate(constraints):
     all_transitions.extend(transitions)
 
 #print("\nAutomata founded:\n")
-print(all_automata)
+#print(all_automata)
 
 #print("\nTransitions founded:\n")
-print(all_transitions)
+#print(all_transitions)
 
 # STEP 3: Raggruppo le transizioni per attività
 grouped = group_transitions_by_label(all_transitions)
@@ -87,8 +87,8 @@ if any(len(a.final_states) > 1 for a in all_automata):
     actions_gen = chain(actions_gen, finish_gen)
     
 #STEP 8: Genero dominio e problema PDDL
-generate_pddl_domain_file(actions_gen, path="./experiments/planning_tasks/domain_9_10.pddl")
-generate_pddl_problem(all_automata, path="./experiments/planning_tasks/problem_9_10.pddl")
+generate_pddl_domain_file(actions_gen, path="./experiments/9_10/domain_9_10_20.pddl")
+generate_pddl_problem(all_automata, path="./experiments/9_10/problem_9_10_20.pddl")
 
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
@@ -96,11 +96,11 @@ elapsed_time = end_time - start_time
 print(f"\nTempo di esecuzione totale: {elapsed_time:.4f} secondi")
 
 #Salvataggio 
-labels = ["diverse-10", "diverse-25", "diverse-50", "topk-10", "topk-25", "topk-50", "topq-10", "topq-15", "topq-20"]
+"""labels = ["diverse-10", "diverse-25", "diverse-50", "topk-10", "topk-25", "topk-50", "topq-10", "topq-15", "topq-20"]
 
-csv_path = "./experiments/execution_times/times_3_20.csv"
+csv_path = "./experiments/9_10/times_9_10.csv"
 
-"""with open(csv_path, "w", newline="") as f:
+with open(csv_path, "w", newline="") as f:
     writer = csv.writer(f)
 
     # intestazione

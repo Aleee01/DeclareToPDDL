@@ -63,7 +63,7 @@ def parse_declare_decl(path):
 def parse_declare_json(path):
     constraints = []
 
-    preferences_templates = {"pattern_gap", "pattern", "prefix", "suffix"}  
+    preferences_templates = {"patterngap", "pattern", "prefix", "suffix"}  
 
     with open(path) as f:
         data = json.load(f)
@@ -90,7 +90,6 @@ def parse_declare_json(path):
                 "act2": act2
             })
 
-    print(len(constraints))
     return constraints
 
 def normalize_name(name):

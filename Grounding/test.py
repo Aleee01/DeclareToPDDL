@@ -4,78 +4,83 @@ from pathlib import Path
 import time
 import csv
 
-domain = "/mnt/c/users/alegi/Desktop/Tesi/DeclareToPDDL/Grounding/experiments/planning_tasks/domain_3_20.pddl"
-problem = "/mnt/c/users/alegi/Desktop/Tesi/DeclareToPDDL/Grounding/experiments/planning_tasks/problem_3_20.pddl"
-
+path_files = "/mnt/c/users/alegi/Desktop/Tesi/DeclareToPDDL/Grounding/experiments/"
+domains = ["3_10/domain_3_10.pddl", "3_20/domain_3_20.pddl", "5_10/domain_5_10.pddl", "5_20/domain_5_20.pddl", "7_10/domain_7_10.pddl", "7_20/domain_7_20.pddl", "9_10/domain_9_10.pddl", "9_20/domain_9_20.pddl"]
+problems = ["3_10/problem_3_10.pddl", "3_20/problem_3_20.pddl", "5_10/problem_5_10.pddl", "5_20/problem_5_20.pddl", "7_10/problem_7_10.pddl", "7_20/problem_7_20.pddl", "9_10/problem_9_10.pddl", "9_20/problem_9_20.pddl"]
 num_plans = [10, 25, 50]
-bounds_3 = [5, 7.5, 10]
-bounds_5 = [2, 3, 4]
-bounds_7 = [1.43, 2.15, 2.86]
-bounds_9 = [1.12, 1.67, 2.23]
 
 wsl_folder = "/home/alessandra/forbiditerative"
-plans_dir = Path("//wsl$/Ubuntu/home/alessandra/forbiditerative/found_plans")
-topq_script = "./plan_unordered_topq.sh"
 topk_script = "./plan_topk.sh"
-diverse_script = "./plan_diverse_sat.sh"
+diverse_script = "./plan_diverse_agl.sh"
 
-output_dir = Path("C:/Users/alegi/Desktop/Tesi/DeclareToPDDL/Grounding/experiments/results")
+output_dir = Path("C:/Users/alegi/Desktop/Tesi/DeclareToPDDL/Grounding/experiments/")
 output_dir.mkdir(exist_ok=True)
 
-csv_file = "./experiments/execution_times/times_3_20.csv"
-
-with open(csv_file, newline="") as f:
-    rows = list(csv.reader(f))
 
 #DIVERSE PLANNING
-for n in num_plans:
-    print(f"\n--- Lancio Diverse planner con parametro {n} ---\n")
+for i, domain in enumerate(domains):
+    problem = problems[i]
+    domain_path = path_files + domain
+    problem_path = path_files + problem
 
-    start_time = time.perf_counter()
-    result = subprocess.run(
-        ["wsl", "bash", "-c", f"cd {wsl_folder} && {diverse_script} {domain} {problem} {n} stability"],
-        capture_output=True,
-        text=True
-    )
-    end_time = time.perf_counter()
-    elapsed_time = end_time - start_time
+    folder_name = domain.split("/")[0]
+    csv_file = output_dir / folder_name / f"times_{folder_name}.csv"
 
-    print(f"\nTempo di esecuzione totale: {elapsed_time:.4f} secondi")
+    with open(csv_file, newline="") as f:
+        rows = list(csv.reader(f))
 
-    index = num_plans.index(n) + 1
-    rows[index][2] = f"{elapsed_time:.4f}"
+    for n in num_plans:
+        print(f"\n--- Lancio Diverse planner con parametro {n} per {domain} {problem} ---\n")
 
-    # Salva l'intero output su file
-    """output_file = output_dir / f"output_3_10_Diverse_{n}_uni.txt"
-    with open(output_file, "w") as f:
-        f.write(result.stdout)
-        f.write("\n\n=== STDERR ===\n")
-        f.write(result.stderr)"""
+        start_time = time.perf_counter()
+        result = subprocess.run(
+            ["wsl", "bash", "-c", f"cd {wsl_folder} && {diverse_script} {domain_path} {problem_path} {n}"],
+            capture_output=True,
+            text=True
+        )
+        end_time = time.perf_counter()
+        elapsed_time = (end_time - start_time)/n
 
-    #TOP K
-    print(f"\n--- Lancio Topk planner con parametro {n} ---\n")
+        print(f"\nAverage time for plan: {elapsed_time:.4f} s")
 
-    start_time = time.perf_counter()
-    result = subprocess.run(
-        ["wsl", "bash", "-c", f"cd {wsl_folder} && {topk_script} {domain} {problem} {n}"],
-        capture_output=True,
-        text=True
-    )
-    end_time = time.perf_counter()
-    elapsed_time = end_time - start_time
+        index = num_plans.index(n) + 1
+        rows[index][2] = f"{elapsed_time:.4f}"
 
-    print(f"\nTempo di esecuzione totale: {elapsed_time:.4f} secondi")
+        domain_output_dir = output_dir / folder_name
+        domain_output_dir.mkdir(exist_ok=True)
 
-    index = num_plans.index(n) + 4
-    rows[index][2] = f"{elapsed_time:.4f}"
+        output_file = domain_output_dir / f"output_Diverse_{n}.txt"
 
-    """output_file = output_dir / f"output_3_10_Topk_{n}_uni.txt"
-    with open(output_file, "w") as f:
-        f.write(result.stdout)
-        f.write("\n\n=== STDERR ===\n")
-        f.write(result.stderr)"""
+        with open(output_file, "w") as f:
+            f.write(result.stdout)
+            f.write("\n\n=== STDERR ===\n")
+            f.write(result.stderr)
+
+        #TOP K
+        print(f"\n--- Lancio Topk planner con parametro {n} ---\n")
+
+        start_time = time.perf_counter()
+        result = subprocess.run(
+            ["wsl", "bash", "-c", f"cd {wsl_folder} && {topk_script} {domain_path} {problem_path} {n}"],
+            capture_output=True,
+            text=True
+        )
+        end_time = time.perf_counter()
+        elapsed_time = (end_time - start_time)/n
+
+        print(f"\nAverage time for plan: {elapsed_time:.4f} s")
+
+        index = num_plans.index(n) + 4
+        rows[index][2] = f"{elapsed_time:.4f}"
+
+        output_file = domain_output_dir / f"output_TopK_{n}.txt"
+
+        with open(output_file, "w") as f:
+            f.write(result.stdout)
+            f.write("\n\n=== STDERR ===\n")
+            f.write(result.stderr)
 
 
-with open(csv_file, "w", newline="") as f:
-    writer = csv.writer(f)
-    writer.writerows(rows)
+    with open(csv_file, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerows(rows)
