@@ -188,6 +188,27 @@ def automaton_respondedexistence(a, b, idx, all_acts):
         "abstract": abs,
     }
 
+def automaton_branchrespondedexistence(a, b, c, idx, all_acts):
+    s0 = f"br_respex_{a}_{b}_{c}_s0_{idx}"
+    s1 = f"br_respex_{a}_{b}_{c}_s1_{idx}"
+    s2 = f"br_respex_{a}_{b}_{c}_s2_{idx}"
+    abs = f"br_respex_{a}_{b}_{c}_sabs_{idx}"
+    transitions = [(s0, b, s1), (s0, a, s2), (s0, c, s1), (s2, b, s1), (s2, c, s1)]
+    for act in all_acts:
+        transitions.append((s1, act, s1))
+        if act not in (a,b,c):
+            transitions.append((s0, act, s0))
+        if act not in (b,c):
+            transitions.append((s2, act, s2))
+    return {
+        "name": f"br_respondedexistence_{a}_{b}_{c}_{idx}",
+        "states": [s0, s1, s2, abs],
+        "init": s0,
+        "final": [s0, s1],
+        "transitions": transitions,
+        "abstract": abs,
+    }
+
 def automaton_coexistence(a, b, idx, all_acts):
     s0 = f"coex_{a}_{b}_s0_{idx}"
     s1 = f"coex_{a}_{b}_s1_{idx}"
@@ -736,6 +757,7 @@ def declare_factory(constraint, idx, alphabet):
         acts = constraint.get("activities", [])
     A = constraint.get("act1")
     B = constraint.get("act2")
+    C = constraint.get("act3")
 
     mapping = {
         "existence": lambda: automaton_existence(A, idx, alphabet),
@@ -764,6 +786,7 @@ def declare_factory(constraint, idx, alphabet):
         "choice": lambda: automaton_choice(A, B, idx, alphabet),
         "exclusivechoice": lambda: automaton_exclusivechoice(A, B, idx, alphabet),
         "respondedexistence": lambda: automaton_respondedexistence(A, B, idx, alphabet),
+        "br_respondedexistence": lambda: automaton_branchrespondedexistence(A, B, C, idx, alphabet),
         "coexistence": lambda: automaton_coexistence(A, B, idx, alphabet),
         "notcoexistence": lambda: automaton_notcoexistence(A, B, idx, alphabet),
         "notresponded_existence": lambda: automaton_notcoexistence(A, B, idx, alphabet),
