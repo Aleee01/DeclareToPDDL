@@ -107,6 +107,8 @@ def extract_alphabet(constraints):
     alphabet = set()
 
     for c in constraints:
+        if c.get("type") == "minlen":
+            continue
         if "activities" in c:
             alphabet.update(c["activities"])
         else:

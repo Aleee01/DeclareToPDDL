@@ -2,7 +2,7 @@
 
 from parser import parse_declare_csv, extract_alphabet, filter_absence_constraints, parse_declare_json, parse_declare_decl
 from builders import declare_factory, build_automaton_from_dict
-from pddl_generator2 import (
+from pddl_generator import (
     group_transitions_by_label,
     build_transition_map,
     generate_combinations_gen,
@@ -14,15 +14,21 @@ from pddl_generator2 import (
 )
 import time
 import csv
+import pandas as pd
+import os
 
 start_time = time.perf_counter()
 
 # STEP 1: Leggo i vincoli Declare dal CSV
 #path = "../simplified_Sep90.csv" 
-path = "./experiments/input_models/fracture.json" 
+path = "./experiments/input_models/CoSeLog--Mun-C.json" 
+if (path.endswith(".json")):
+    constraints = parse_declare_json(path)
+elif (path.endswith(".decl")):
+    constraints = parse_declare_decl(path)
 #constraints = parse_declare_decl(path)
 #constraints = parse_declare_csv(path)
-constraints = parse_declare_json(path)
+#constraints = parse_declare_json(path)
 constraints = filter_absence_constraints(constraints)
 alphabet = extract_alphabet(constraints)
 
@@ -87,8 +93,8 @@ if any(len(a.final_states) > 1 for a in all_automata):
     actions_gen = chain(actions_gen, finish_gen)
     
 #STEP 8: Genero dominio e problema PDDL
-generate_pddl_domain_file(actions_gen, path="./experiments/FractureLog/domain_fracture.pddl")
-generate_pddl_problem(all_automata, path="./experiments/FractureLog/problem_fracture.pddl")
+generate_pddl_domain_file(actions_gen, path="./experiments/CoSeLoG--C/domain_CoSe_C_20.pddl")
+generate_pddl_problem(all_automata, path="./experiments/CoSeLoG--C/problem_CoSe_C_20.pddl")
 
 end_time = time.perf_counter()
 elapsed_time = end_time - start_time
@@ -97,14 +103,29 @@ print(f"\nTempo di esecuzione totale: {elapsed_time:.4f} secondi")
 
 #Salvataggio 
 labels = ["diverse-10", "diverse-25", "diverse-50", "topk-10", "topk-25", "topk-50", "topq-10", "topq-15", "topq-20"]
+labels_real = ["topk-10", "topk-25", "topk-50", "topq-15", "topq-20"]
 
-csv_path = "./experiments/FractureLog/times_FractureLog.csv"
+csv_path = "./experiments/CoSeLoG--C/times_CoSeLog--C.csv"
 
-with open(csv_path, "w", newline="") as f:
+"""with open(csv_path, "w", newline="") as f:
     writer = csv.writer(f)
 
     # intestazione
-    writer.writerow(["config", "grounding_time", "planning_time"])
+    writer.writerow(["config", "Grounding_time", "Average_planning_time"])
 
-    for label in labels:
-        writer.writerow([label, f"{elapsed_time:.4f}",""])
+    for label in labels_real:
+        writer.writerow([label, f"{elapsed_time:.4f}",""])"""
+
+
+# Carichiamo il file o creiamone uno nuovo se non esiste
+"""if os.path.exists(csv_path):
+    df = pd.read_csv(csv_path, index_col="config")
+else:
+    df = pd.DataFrame(columns=["grounding_time", "planning_time"])
+    df.index.name = "config"
+
+# Aggiorniamo solo la cella specifica
+df.at["topq-20", "grounding_time"] = round(elapsed_time, 4)
+
+# Salviamo di nuovo in CSV
+df.to_csv(csv_path)"""

@@ -472,7 +472,7 @@ def automaton_notcoexistence(a, b, idx, all_acts):
         "name": f"notcoexistence_{a}_{b}_{idx}",
         "states": [s0, s1, s2, s3, abs],
         "init": s0,
-        "final": [s0, s1],
+        "final": [s0, s1, s2],
         "transitions": transitions,
         "abstract": abs,
     }

@@ -3,25 +3,55 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from datetime import datetime, timedelta
 
+import re
+
+import re
+
 def parse_sas_to_list(content):
-    """Estrae i piani dalla sezione ---BEGIN_PLANS--- pulendo i nomi."""
+    """Estrae i piani dalla sezione ---BEGIN_PLANS--- mantenendo solo il nome centrale delle azioni sync_* e ignorando finish."""
+    
     if "---BEGIN_PLANS---" not in content:
         return []
     
     plans_section = content.split("---BEGIN_PLANS---")[1].strip()
     
-    #I piani sono suddivisi dalla stampa del costo
+    # I piani sono suddivisi dalla stampa del costo
     raw_plan_blocks = re.split(r';\s*cost\s*=\s*\d+.*', plans_section)
     
     plans = []
+    
     for block in raw_plan_blocks:
-        #Azioni tra parentesi
         actions = re.findall(r'\((.*?)\)', block)
-        if actions:
-            #Rimuove metadati tecnici come __###__ e spazi extra
-            clean_actions = [re.sub(r'__###__.*', '', a).strip() for a in actions]
+        
+        clean_actions = []
+        
+        for a in actions:
+            # Rimuove metadati tecnici
+            a = re.sub(r'__###__.*', '', a).strip()
+            
+            # Estrae solo sync_nome_nome_123 e prende solo la parte centrale
+            match = re.search(r'\b(sync_([a-z]+(?:_[a-z]+)*)_\d+)\b', a)
+            
+            if match:
+                central_name = match.group(2)  # solo nome senza sync_ e numero
+                clean_actions.append(central_name)
+        
+        if clean_actions:
             plans.append(clean_actions)
+    
     return plans
+
+def get_unique_plans(plans):
+    unique = []
+    seen = set()
+    
+    for plan in plans:
+        key = tuple(plan)
+        if key not in seen:
+            seen.add(key)
+            unique.append(plan)
+    
+    return unique
 
 def write_xes(plans, output_path):
     """Genera il file XML in formato XES standard."""
@@ -69,6 +99,7 @@ def automate_xes_with_subfolders(base_dir, folders):
                 content = f.read()
             
             plans = parse_sas_to_list(content)
+            plans = get_unique_plans(plans)
             
             if plans:
                 xes_file_path = xes_output_dir / (txt_file.stem + ".xes")
